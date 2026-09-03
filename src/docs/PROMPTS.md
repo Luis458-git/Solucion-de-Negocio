@@ -1,120 +1,184 @@
-Bitácora de prompts
+# Bitácora de prompts
 
-Este archivo registra el ciclo de trabajo con asistentes de IA. Cada integrante debe añadir una entrada después de una sesión importante. La bitácora debe actualizarse mientras ocurre el trabajo, no únicamente al final.
+Este archivo registra las iteraciones importantes del proyecto y demuestra la aplicación del ciclo:
 
-Ciclo de trabajo
-
-Plain Text
-
-
+```text
 Describe → Genera → Revisa → Prueba → Refina
+```
 
+La IA genera propuestas y código, pero el equipo humano decide el alcance, revisa el resultado, ejecuta las pruebas y corrige los problemas.
 
+## Fase 0 — Intención
 
-Reglas de registro
+### Iteración 01 — Definición del problema
 
-Cada entrada indica quién trabajó, en qué rama, qué archivos estuvieron involucrados, cuál fue el objetivo, qué se solicitó a la IA, qué se generó, qué revisó la persona y cómo se validó el resultado.
+**Objetivo:** Identificar un problema real de un pequeño negocio y definir un MVP demostrable.
 
-Fase 0 — Preparación y arquitectura
+**Decisión humana:** Se eligió ayudar al encargado de una farmacia pequeña a registrar medicamentos y detectar rápidamente cuáles necesitan reposición.
 
-Iteración 01 — Documentación inicial
+**Función central:** Registrar y consultar el inventario, mostrando automáticamente si el stock es normal, bajo o agotado.
 
-**Fecha:** 2026-09-03  
+**Criterios de éxito:**
+
+```text
+1. Un medicamento válido aparece en el inventario.
+2. El stock se clasifica correctamente.
+3. El usuario puede editar o eliminar y recibe mensajes claros ante errores.
+```
+
+**Estado:** Aprobado.
+
+## Fase 1 — Prototipo
+
+### Iteración 02 — Estructura inicial
+
+**Integrante:** Sebastian  
+**Rama:** `sebas`  
+**Objetivo:** Crear la estructura feature-based sin alterar el scaffold inicial de Vite.
+
+**Archivos y carpetas principales:**
+
+```text
+src/app/
+src/features/inventory/components/
+src/features/inventory/hooks/
+src/features/inventory/utils/
+src/pages/
+src/shared/components/
+src/shared/hooks/
+src/shared/lib/
+src/styles/
+```
+
+**Revisión:** Luis confirmó que la estructura coincide con la arquitectura documentada.
+
+**Validación:**
+
+```text
+npm run lint → correcto
+npm run build → correcto
+```
+
+**Estado:** Aprobado.
+
+### Iteración 03 — Formulario y página inicial
+
+**Integrante:** Luis  
+**Rama:** `Luis`, posteriormente integrada en `sebas`  
+**Objetivo:** Crear el formulario inicial y conectarlo con la página del inventario.
+
+**Archivos afectados:**
+
+```text
+src/features/inventory/components/InventoryForm.jsx
+src/pages/InventoryPage.jsx
+```
+
+**Revisión:** El formulario permite introducir los datos básicos y la página utiliza la lógica del inventario.
+
+**Estado:** Integrado como prototipo.
+
+## Fase 2 — Funcionalidad central
+
+### Iteración 04 — Lógica base del inventario
+
+**Integrante:** Sebastian  
+**Rama:** `sebas`  
+**Objetivo:** Crear validaciones, clasificación de stock, métricas derivadas y operaciones de inventario.
+
+**Archivos afectados:**
+
+```text
+src/features/inventory/hooks/useInventory.js
+src/features/inventory/utils/inventoryUtils.js
+src/features/inventory/utils/inventoryValidation.js
+```
+
+**Resultado:** Se implementaron el registro, la validación, la generación de ID único, la clasificación del stock y la eliminación básica.
+
+**Revisión:** Se comprobó que el estado se mantiene en una sola instancia del hook y que el stock se calcula a partir de la cantidad.
+
+**Estado:** Aprobado para prototipo.
+
+### Iteración 05 — Tabla y fila de inventario
+
+**Integrante:** Luis  
+**Rama:** `Luis`, posteriormente integrada en `sebas`  
+**Objetivo:** Mostrar los medicamentos registrados y permitir la acción de eliminar.
+
+**Archivos afectados:**
+
+```text
+src/features/inventory/components/InventoryRow.jsx
+src/features/inventory/components/InventoryTable.jsx
+src/pages/InventoryPage.jsx
+src/features/inventory/hooks/useInventory.js
+```
+
+**Resultado:** El medicamento registrado aparece en una tabla, se muestra su estado y se puede eliminar. La edición todavía muestra una acción pendiente de completar y la eliminación aún no tiene confirmación.
+
+**Prueba manual:**
+
+```text
+Registro válido → funciona.
+Medicamento con cantidad 0 → aparece como agotado.
+Visualización en tabla → funciona.
+Eliminación → funciona de forma básica.
+```
+
+**Validación:**
+
+```text
+npm run lint → correcto después de la integración.
+npm run build → correcto después de la integración.
+```
+
+**Estado:** Prototipo funcional básico; requiere refinamiento.
+
+## Siguiente iteración
+
+### Iteración 06 — Edición de medicamentos
+
+**Responsable:** [Definir]  
+**Rama:** Rama de desarrollo sincronizada  
+**Objetivo:** Permitir seleccionar un medicamento, cargar sus datos en el formulario, guardar los cambios y actualizar la fila correcta.
+
+**Archivos previstos:**
+
+```text
+src/features/inventory/components/InventoryForm.jsx
+src/pages/InventoryPage.jsx
+```
+
+**Restricciones:** Implementar solo edición. No incorporar todavía estilos avanzados, Skiper UI, GSAP, localStorage, backend ni funcionalidades fuera del PRD.
+
+**Estado:** Pendiente.
+
+## Plantilla para nuevas iteraciones
+
+### Iteración [número] — [Nombre]
+
+**Fecha:** [AAAA-MM-DD]  
 **Integrante:** [Nombre]  
-**Rama:** [nombre-de-la-rama]  
-**Objetivo:** Crear y revisar la documentación base del proyecto.  
+**Rama:** [Rama]  
+**Fase:** [Fase]  
+**Objetivo:** [Qué se quiere lograr.]  
 
 **Prompt utilizado:**
 
 ```text
-[Copiar aquí el prompt utilizado]
-```
-
-**Archivos creados o modificados:**
-
-```text
-[Lista de rutas]
-```
-
-**Resultado de la IA:**
-
-[Describir brevemente el resultado.]
-
-**Revisión humana:**
-
-[Indicar qué se revisó, qué se aceptó y qué se cambió.]
-
-**Problemas encontrados:**
-
-[Registrar errores, contradicciones o decisiones pendientes.]
-
-**Correcciones realizadas:**
-
-[Registrar las correcciones.]
-
-**Validación:**
-
-- [ ] Revisión del compañero.
-- [ ] `npm run lint`.
-- [ ] `npm run build`.
-- [ ] Revisión de documentos.
-
-**Resultado:** Pendiente / Aprobado / Requiere cambios.
-
-## Fase 1 — Lógica del inventario
-
-### Iteración 01
-
-**Fecha:** [AAAA-MM-DD]  
-**Integrante:** [Nombre]  
-**Rama:** [nombre-de-la-rama]  
-**Objetivo:** [Objetivo concreto.]  
-
-**Prompt:**
-
-```text
-[Prompt]
-```
-
-**Resultado de la IA:** [Resumen.]  
-**Revisión humana:** [Revisión.]  
-**Problemas:** [Problemas.]  
-**Correcciones:** [Correcciones.]  
-**Validación:** [Comandos y resultado.]  
-**Estado:** Pendiente / Aprobado / Requiere cambios.
-
-## Plantilla para nuevas iteraciones
-
-Iteración [número]
-
-Fecha: [AAAA-MM-DD]
-Integrante: [Nombre]
-Rama: [Rama]
-Fase: [Fase]
-Objetivo: [Qué se quiere lograr.]
-
-Prompt utilizado:
-
-Plain Text
-
-
 [Prompt completo]
+```
 
+**Archivos afectados:**
 
-
-Archivos afectados:
-
-Plain Text
-
-
+```text
 [Rutas exactas]
+```
 
-
-
-Resultado generado: [Resumen.]
-Revisión humana: [Qué se comprobó.]
-Problemas encontrados: [Detalles.]
-Correcciones aplicadas: [Detalles.]
-Pruebas ejecutadas: [Comandos y resultado.]
-Decisión: Aprobado / Requiere cambios.
-
+**Resultado generado:** [Resumen.]  
+**Revisión humana:** [Qué se comprobó.]  
+**Problemas encontrados:** [Detalles.]  
+**Correcciones aplicadas:** [Detalles.]  
+**Pruebas ejecutadas:** [Comandos y resultado.]  
+**Decisión:** Aprobado / Requiere cambios.

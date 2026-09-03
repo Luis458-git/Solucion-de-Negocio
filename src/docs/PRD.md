@@ -1,137 +1,109 @@
-# PRD — Sistema de control de inventario farmacéutico
+# PRD — MVP de inventario farmacéutico
 
-## 1. Resumen ejecutivo
+## 1. Intención de la práctica
 
-El producto será una aplicación web frontend para que el personal de una farmacia comunitaria registre, consulte y mantenga actualizado un inventario de medicamentos y suministros médicos. El MVP debe ser ligero, claro y confiable para las tareas diarias de consulta y actualización.
+Este proyecto se desarrolla mediante el ciclo de Vibe Coding:
 
-## 2. Problema
+```text
+Describe → Genera → Revisa → Prueba → Refina
+```
 
-Las farmacias pequeñas pueden tener dificultades para conocer las existencias reales, detectar productos próximos a agotarse y mantener actualizados los precios y las cantidades. El sistema busca reducir la consulta manual y mejorar la visibilidad del inventario.
+La IA puede generar propuestas y código, pero las decisiones, la revisión, las pruebas y la responsabilidad final corresponden al equipo.
 
-## 3. Objetivo
+## 2. Usuario y problema
 
-Desarrollar una aplicación web que permita registrar, consultar, modificar y eliminar medicamentos, identificar automáticamente los niveles críticos de stock y mostrar métricas básicas del inventario.
+El usuario objetivo es el encargado de una farmacia pequeña. El problema central es que necesita conocer rápidamente qué medicamentos están disponibles y cuáles requieren reposición, sin depender de registros manuales desordenados.
 
-## 4. Alcance del MVP
+## 3. Objetivo del MVP
 
-El MVP incluirá el registro de medicamentos, la visualización del inventario en una tabla, la validación de los datos del formulario, la identificación visual de stock bajo y productos agotados, la edición de registros, la eliminación con confirmación y las métricas de resumen del inventario.
+Construir una aplicación frontend sencilla que permita registrar medicamentos y consultar su estado de inventario, identificando automáticamente si tienen stock normal, bajo o agotado.
 
-La búsqueda y el filtrado del inventario se consideran una capacidad prioritaria para una segunda parte del MVP, una vez completado el flujo principal.
+El MVP debe ser demostrable en una sesión y debe resolver un solo problema central. No busca ser un sistema empresarial completo ni una plataforma oficial de una marca comercial.
 
-## 5. Fuera de alcance
+## 4. Criterios de éxito
 
-Quedan fuera de esta primera versión la autenticación y gestión de usuarios, el procesamiento de pagos, el sistema de ventas, la gestión de proveedores, las integraciones con sistemas externos de farmacia y cualquier función que no esté justificada por los requerimientos definidos aquí.
+La práctica se considerará exitosa si se cumplen estos tres criterios:
 
-La persistencia con `localStorage`, el ordenamiento avanzado, la exportación de reportes y la conexión con una base de datos podrán evaluarse posteriormente, pero no bloquean la primera versión funcional.
+| ID | Criterio |
+|---|---|
+| CE-01 | El usuario registra un medicamento válido y este aparece en el inventario. |
+| CE-02 | El sistema clasifica correctamente el stock normal, bajo y agotado. |
+| CE-03 | El usuario puede editar o eliminar un medicamento y recibe mensajes claros ante datos inválidos. |
 
-## 6. Usuario objetivo
+## 5. Alcance funcional
 
-El usuario principal será el personal de una farmacia comunitaria encargado de consultar y mantener actualizado el inventario de medicamentos y suministros.
+El MVP incluirá un formulario con nombre, categoría, cantidad y precio unitario; una tabla o lista de medicamentos; validación de campos; clasificación del stock; edición; eliminación; un estado vacío y una métrica útil para el negocio, como el total de productos registrados.
 
-## 7. Flujo principal
+La búsqueda y los filtros son opcionales y solo se incorporarán si las funciones centrales ya están terminadas y validadas.
 
-El usuario ingresa a la aplicación, consulta el inventario actual, registra un medicamento mediante el formulario, corrige cualquier error de validación, visualiza el nuevo registro en la tabla, revisa las alertas de stock, edita un registro cuando es necesario y elimina un registro obsoleto previa confirmación.
+## 6. Fuera de alcance
 
-## 8. Modelo de datos
+No se implementarán autenticación, backend, base de datos, pagos, ventas, proveedores, recetas, integración con sistemas externos, localStorage, reportes avanzados ni funciones de administración empresarial. Tampoco se utilizará la identidad de una marca comercial como si existiera una afiliación oficial.
 
-Cada medicamento deberá manejar, como mínimo, la siguiente información:
+Skiper UI y GSAP pertenecen a la fase de pulido. No deben retrasar ni sustituir la funcionalidad central.
 
-| Campo | Tipo | Requerido | Regla |
-|---|---|---:|---|
-| `id` | String o número | Sí, interno | Debe ser único. |
-| `name` | Texto | Sí | No puede estar vacío. |
-| `category` | Texto | Sí | No puede estar vacía. |
-| `quantity` | Número entero | Sí | Debe ser mayor o igual a cero. |
-| `unitPrice` | Número decimal | Sí | Debe ser mayor o igual a cero. |
-| `stockStatus` | Valor calculado | No | Se calcula a partir de `quantity`; no se duplica como estado independiente. |
+## 7. Modelo de datos
+
+Cada medicamento tendrá como mínimo:
+
+| Campo | Tipo | Regla |
+|---|---|---|
+| `id` | String | Único y generado por la aplicación. |
+| `name` | String | Obligatorio y no vacío. |
+| `category` | String | Obligatoria y no vacía. |
+| `quantity` | Integer | Entero mayor o igual que cero. |
+| `unitPrice` | Number | Número mayor o igual que cero. |
+| `stockStatus` | Calculado | No se almacena como estado independiente. |
+
+## 8. Reglas de negocio
+
+`quantity` igual a cero significa `Agotado`. Una cantidad mayor que cero y menor que cinco significa `Stock Bajo`. Una cantidad mayor o igual que cinco significa `Stock Normal`. La clasificación se calcula a partir de `quantity`, y `Agotado` tiene prioridad visual sobre cualquier otra condición.
+
+El nombre, la categoría, la cantidad y el precio son obligatorios. No se aceptan cantidades negativas, decimales en la cantidad ni precios negativos. Cada registro conserva un identificador único para editarlo o eliminarlo sin depender del nombre.
 
 ## 9. Requerimientos funcionales
 
 | ID | Requerimiento | Prioridad |
 |---|---|---|
-| RF-01 | Registrar un medicamento con nombre, categoría, cantidad y precio unitario. | Must Have |
-| RF-02 | Mostrar los medicamentos registrados en una tabla interactiva. | Must Have |
+| RF-01 | Registrar un medicamento válido. | Must Have |
+| RF-02 | Mostrar los medicamentos registrados. | Must Have |
 | RF-03 | Validar campos obligatorios y valores numéricos. | Must Have |
-| RF-04 | Identificar visualmente medicamentos con stock inferior a cinco unidades. | Must Have |
-| RF-05 | Identificar medicamentos con cantidad igual a cero como agotados. | Must Have |
-| RF-06 | Permitir editar los datos de un medicamento. | Must Have |
-| RF-07 | Permitir eliminar un medicamento previa confirmación. | Must Have |
-| RF-08 | Actualizar las métricas después de registrar, editar o eliminar. | Must Have |
-| RF-09 | Permitir búsqueda o filtrado del inventario. | Should Have |
+| RF-04 | Clasificar y mostrar el estado del stock. | Must Have |
+| RF-05 | Editar un medicamento existente. | Must Have |
+| RF-06 | Eliminar un medicamento. | Must Have |
+| RF-07 | Mostrar un estado vacío y mensajes de error claros. | Must Have |
+| RF-08 | Mostrar una métrica útil del inventario. | Should Have |
+| RF-09 | Buscar o filtrar medicamentos. | Could Have |
 
-## 10. Reglas de negocio
+## 10. Fases de la práctica
 
-**RN-01 — Stock bajo.** Si la cantidad es menor que cinco, el producto se clasifica como `Stock Bajo`.
-
-**RN-02 — Stock agotado.** Si la cantidad es igual a cero, el producto se clasifica como `Agotado`. Esta regla tiene prioridad visual sobre `Stock Bajo`.
-
-**RN-03 — Stock normal.** Si la cantidad es mayor o igual a cinco, el producto se clasifica como `Stock Normal`.
-
-**RN-04 — Cantidad.** La cantidad debe ser un número entero mayor o igual a cero.
-
-**RN-05 — Precio.** El precio unitario debe ser un número mayor o igual a cero.
-
-**RN-06 — Campos obligatorios.** No se permite registrar ni actualizar un medicamento con nombre, categoría, cantidad o precio vacío.
-
-**RN-07 — Identificador.** Cada registro debe conservar un identificador único para permitir edición y eliminación sin depender del nombre del medicamento.
-
-## 11. Métricas mínimas
-
-La pantalla debe mostrar métricas calculadas a partir del arreglo real de medicamentos. Como mínimo se recomienda mostrar el total de productos, el total de unidades, la cantidad de productos con stock bajo y la cantidad de productos agotados. Las métricas no deben almacenarse como estados duplicados.
-
-## 12. Requerimientos no funcionales
-
-| ID | Requerimiento |
+| Fase | Resultado |
 |---|---|
-| RNF-01 | Utilizar React + Vite, JavaScript/JSX y ESLint. |
-| RNF-02 | Utilizar arquitectura feature-based híbrida. |
-| RNF-03 | Mantener una responsabilidad clara por componente. |
-| RNF-04 | Mantener únicamente el estado necesario y calcular los datos derivados. |
-| RNF-05 | Revisar imports, sintaxis, lint, pruebas y build antes de terminar una funcionalidad. |
-| RNF-06 | Los errores inesperados de renderizado no deben producir una pantalla en blanco. |
-| RNF-07 | Los controles interactivos deben tener etiquetas accesibles, navegación por teclado y estados visuales claros. |
-| RNF-08 | No almacenar secretos ni credenciales privadas en el frontend o repositorio. |
-| RNF-09 | Las animaciones no deben impedir la lectura, interacción o comprensión del inventario. |
-| RNF-10 | Respetar `prefers-reduced-motion` para reducir o desactivar animaciones no esenciales. |
+| Fase 0 — Intención | Usuario, problema central, función principal y criterios de éxito. |
+| Fase 1 — Prototipo | Estructura inicial, formulario y presentación básica. |
+| Fase 2 — Funcionalidad central | Guardar, mostrar, validar, editar y eliminar, una función a la vez. |
+| Fase 3 — Pulido | Coherencia visual, responsive, accesibilidad y un dato útil. |
+| Fase 4 — Prueba final | Demo, criterios de éxito, lint, build, revisión humana y reflexión. |
 
-## 13. Priorización MoSCoW
+## 11. Requerimientos técnicos
 
-| Prioridad | Elementos |
-|---|---|
-| Must Have | Registro, tabla, validaciones, alertas, edición, eliminación y métricas. |
-| Should Have | Búsqueda y filtrado. |
-| Could Have | Persistencia con `localStorage`, ordenamiento y exportación. |
-| Won't Have | Autenticación, pagos, ventas, proveedores e integraciones externas en este MVP. |
+El proyecto utilizará React, Vite, JavaScript/JSX y ESLint. La lógica se organizará por feature dentro de `src/features/inventory/`, mientras que los recursos reutilizables vivirán en `src/shared/`. Los estilos y las animaciones no deben mezclarse con las reglas de negocio.
 
-## 14. Estados de interfaz
+La validación se realizará después de cada incremento mediante revisión humana, pruebas manuales, `npm run lint` y `npm run build`.
 
-La aplicación debe contemplar un estado normal con inventario disponible, un estado vacío cuando no existan registros, un estado de stock bajo, un estado agotado, un estado de error durante operaciones inesperadas y un estado de validación para datos incorrectos o campos incompletos.
-
-Cada estado importante debe comunicarse mediante texto, color, estructura e iconos. La animación puede reforzar el cambio, pero nunca debe ser el único medio de comunicación.
-
-## 15. Criterios de aceptación
+## 12. Criterios de aceptación
 
 | ID | Criterio |
 |---|---|
-| CA-01 | Al enviar datos válidos, el medicamento aparece en la tabla y las métricas se actualizan. |
-| CA-02 | Si faltan campos obligatorios, el registro se bloquea y se muestran mensajes claros. |
-| CA-03 | Un medicamento con menos de cinco unidades muestra el estado `Stock Bajo`. |
-| CA-04 | Un medicamento con cero unidades muestra el estado `Agotado`. |
-| CA-05 | Al guardar cambios de edición, la información actualizada aparece inmediatamente. |
-| CA-06 | Al confirmar una eliminación, el registro desaparece y las métricas se actualizan. |
-| CA-07 | La búsqueda o el filtrado, cuando estén implementados, muestran únicamente los registros correspondientes. |
-| CA-08 | El flujo principal puede utilizarse con teclado y los controles poseen nombres accesibles. |
+| CA-01 | Un medicamento válido aparece después de enviarlo. |
+| CA-02 | Los datos inválidos bloquean el registro y muestran el error correspondiente. |
+| CA-03 | La cantidad cero se muestra como `Agotado`. |
+| CA-04 | Una cantidad de uno a cuatro se muestra como `Stock Bajo`. |
+| CA-05 | Una cantidad de cinco o más se muestra como `Stock Normal`. |
+| CA-06 | La edición modifica el registro correcto. |
+| CA-07 | La eliminación retira el registro correcto. |
+| CA-08 | El usuario puede entender la interfaz y sus errores sin depender únicamente del color. |
 
-## 16. Arquitectura técnica
+## 13. Definición de terminado
 
-La aplicación utilizará React + Vite con JavaScript/JSX y ESLint. La funcionalidad del inventario permanecerá dentro de `features/inventory/`. Los componentes genéricos reutilizables se ubicarán en `shared/`. `App.jsx` orquestará la aplicación y `main.jsx` será únicamente el punto de entrada y montaje de React.
-
-Skiper UI se utilizará únicamente para componentes visuales que aporten valor real. GSAP se utilizará para animaciones controladas y separadas de la lógica de datos. No se deben animar las mismas propiedades del mismo elemento con GSAP y Framer Motion al mismo tiempo.
-
-## 17. Proceso de validación
-
-Después de cada funcionalidad se deben revisar imports y sintaxis, ejecutar ESLint, ejecutar las pruebas disponibles, realizar el build de producción, probar el flujo principal, validar los criterios de aceptación, comprobar los estados vacío y error, revisar accesibilidad básica y confirmar que no existan regresiones.
-
-## 18. Definición de terminado
-
-Una funcionalidad se considera terminada cuando cumple el objetivo solicitado, satisface sus criterios de aceptación, funciona mediante el flujo real del usuario, pasa las validaciones correspondientes y no introduce regresiones.
+Una fase está terminada cuando cumple su objetivo, respeta el alcance, pasa los criterios correspondientes, funciona en el flujo real, fue revisada por el equipo y no introduce regresiones. La IA no puede aprobar su propio trabajo sin revisión humana.

@@ -1,58 +1,47 @@
 # Diseño del sistema
 
-## Principio general
+## Propósito visual
 
-La interfaz debe priorizar claridad operativa, lectura rápida y consistencia. El sistema debe sentirse moderno por su jerarquía, tipografía, espacio, interacción y calidad del feedback, no por acumular efectos.
+La interfaz debe comunicar rápidamente qué medicamentos existen y cuáles necesitan reposición. El diseño debe ser claro, legible y demostrable en una sesión. La apariencia moderna se logrará mediante jerarquía, espacio, tipografía, contraste y mensajes útiles antes de añadir efectos.
 
-## Identidad visual
+## Usuario
 
-La identidad inicial será la de una herramienta confiable, limpia y profesional para uso interno de una farmacia comunitaria. No se copiará la identidad visual de una marca comercial sin autorización. La interfaz debe transmitir orden, disponibilidad de información y respuesta clara ante problemas de stock.
+El usuario principal es el encargado de una farmacia pequeña. La pantalla debe permitir registrar un medicamento, consultar la lista y reconocer el estado del stock sin instrucciones complejas.
 
-## Tipografía
+## Prototipo antes del pulido
 
-Se utilizará una tipografía sans-serif legible. Los títulos deben establecer jerarquía sin ocupar más espacio del necesario. Las cifras de métricas deben tener suficiente contraste y tamaño para consultarse rápidamente.
+La primera versión visual puede utilizar clases CSS sencillas. No se deben introducir Tailwind, shadcn/ui, Skiper UI o GSAP si todavía no está completo el flujo funcional de alta, consulta, edición y eliminación.
 
-## Colores
+## Composición principal
 
-La paleta debe utilizar un fondo neutro, superficies claras u oscuras coherentes, un color principal para acciones y colores semánticos para estados. El stock agotado no debe comunicarse únicamente con rojo; debe incluir texto e icono. El contraste debe mantenerse en estados normales, hover, focus, error y disabled.
+La página debe organizarse en un encabezado, un formulario de registro, una lista o tabla de medicamentos y estados contextuales. Las métricas pueden añadirse después como un dato útil para el negocio, siempre que no distraigan del flujo principal.
 
-## Espaciado y composición
+## Componentes y estados
 
-La pantalla principal debe seguir una composición de encabezado, métricas, acciones, filtros, tabla y estados contextuales. El espaciado debe ser consistente y adaptarse a pantallas pequeñas. No se debe imponer una barra lateral, un conjunto de KPI o una tabla si el flujo real no lo necesita.
-
-## Componentes
-
-| Componente | Criterio visual |
+| Elemento | Responsabilidad |
 |---|---|
-| Header | Debe indicar el nombre de la pantalla y la acción principal. |
-| InventoryStats | Tarjetas compactas, legibles y con valor semántico. |
-| InventoryForm | Campos agrupados por relación, labels visibles y mensajes junto al error. |
-| InventoryTable | Lectura clara, acciones identificables y adaptación para pantallas estrechas. |
-| StockAlert | Estado comprensible por texto, color e icono. |
-| Button | Jerarquía entre acción principal, secundaria y destructiva. |
-| ConfirmDialog | Debe explicar la consecuencia y ofrecer cancelar como salida clara. |
-| EmptyState | Debe indicar por qué está vacío y cuál es la siguiente acción. |
+| `InventoryForm` | Capturar datos y mostrar validaciones. |
+| `InventoryTable` | Mostrar los medicamentos. |
+| `InventoryRow` | Mostrar un medicamento y sus acciones. |
+| `StockAlert` | Comunicar stock bajo o agotado. |
+| `InventoryStats` | Mostrar una métrica útil calculada. |
+| `EmptyState` | Explicar qué hacer cuando no hay registros. |
+| `ConfirmDialog` | Confirmar acciones destructivas si se incorpora. |
 
-## Estados
+Se deben contemplar los estados normal, vacío, validación, stock bajo, agotado y error. Los estados importantes deben comunicarse con texto e iconos; el color y la animación solo pueden reforzar el mensaje.
 
-La aplicación debe diseñarse para los estados normal, vacío, stock bajo, agotado, error y validación. Los estados deben existir en el diseño antes de incorporar transiciones.
+## Responsive y accesibilidad
 
-## Responsive
+La interfaz debe funcionar en pantallas pequeñas y grandes. Los controles deben tener labels o nombres accesibles, foco visible y navegación por teclado. Los mensajes de error deben aparecer cerca del campo correspondiente. Una tabla móvil puede usar desplazamiento horizontal controlado o una presentación alternativa, pero no debe ocultar las acciones.
 
-La experiencia debe diseñarse primero para pantallas pequeñas y ampliarse mediante breakpoints. En móvil, la tabla puede requerir desplazamiento horizontal controlado o una presentación alternativa por tarjetas, sin ocultar acciones importantes.
+## Pulido visual
 
-## Accesibilidad
-
-Todos los controles deben tener etiquetas o nombres accesibles. El foco debe ser visible. Las acciones deben poder utilizarse con teclado. Los mensajes de error deben asociarse con sus campos. Los cambios de estado importantes deben comunicarse mediante texto y, cuando corresponda, `role="status"` o `aria-live`.
-
-## Animaciones
-
-Las animaciones se añadirán después de validar el flujo funcional. Deben comunicar entrada, cambio de estado, navegación o feedback. Se preferirán transformaciones y opacidad, con duraciones breves y easing consistente. No se deben animar constantemente las tablas ni los filtros.
+La fase de pulido se realizará después de cumplir los criterios centrales del PRD. En esa fase se podrá definir una paleta neutra con colores semánticos para el stock, una tipografía legible, espaciado consistente y estados hover, focus, disabled y error.
 
 ## Skiper UI
 
-Se podrá utilizar un componente gratuito de Skiper UI para una tarjeta de resumen, una transición visual o un estado vacío si mejora la interfaz. El componente se adaptará a la paleta del proyecto y se conservará la atribución exigida por su licencia. No se incorporarán componentes únicamente por estar de moda.
+Skiper UI es opcional. Solo se incorporará un componente gratuito si mejora una necesidad concreta, como una tarjeta de resumen o un estado vacío. Antes de integrarlo se revisarán sus dependencias, su compatibilidad con JSX y la atribución requerida.
 
 ## GSAP
 
-GSAP se utilizará para animaciones que requieran control preciso, como la entrada de métricas, alertas o filas. Se utilizará `@gsap/react` y `useGSAP()` para gestionar el ciclo de vida. No se debe controlar el mismo elemento con GSAP y Framer Motion simultáneamente.
+GSAP es opcional y se utilizará después de validar la interfaz. Podrá animar entradas breves de métricas, alertas o elementos importantes. No debe animar la lógica ni ser necesario para comprender el inventario. Se debe utilizar `useGSAP()`, limpiar las animaciones y respetar `prefers-reduced-motion`.
