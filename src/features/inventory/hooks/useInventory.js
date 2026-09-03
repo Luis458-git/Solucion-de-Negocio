@@ -16,6 +16,7 @@ export function useInventory(initialMedications = []) {
     }
 
     const newMedication = {
+      id: crypto.randomUUID(),
       ...medication,
       quantity: Number(medication.quantity),
       unitPrice: Number(medication.unitPrice),

@@ -43,11 +43,11 @@ No se debe pasar a la siguiente fase hasta que la fase actual haya sido revisada
 
 ## Fase 3 — Tabla
 
-- [ ] Crear `InventoryTable.jsx`.
-- [ ] Crear `InventoryRow.jsx`.
-- [ ] Mostrar acciones de edición y eliminación.
-- [ ] Mostrar estados del stock.
-- [ ] Implementar estado vacío.
+- [x] Crear `InventoryTable.jsx`.
+- [x] Crear `InventoryRow.jsx`.
+- [x] Mostrar acciones de edición y eliminación.
+- [x] Mostrar estados del stock.
+- [x] Implementar estado vacío.
 
 ## Fase 4 — Estados y métricas
 
