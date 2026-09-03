@@ -139,20 +139,27 @@ npm run build → correcto después de la integración.
 
 ### Iteración 06 — Edición de medicamentos
 
-**Responsable:** [Definir]  
-**Rama:** Rama de desarrollo sincronizada  
+**Fecha:** 2026-09-03
+**Integrante:** Luis
+**Rama:** `sebas`
+**Fase:** Fase 2 — Funcionalidad central
 **Objetivo:** Permitir seleccionar un medicamento, cargar sus datos en el formulario, guardar los cambios y actualizar la fila correcta.
 
-**Archivos previstos:**
+**Prompt utilizado:**
+(El usuario proporcionó instrucciones detalladas para implementar únicamente la edición, respetando la única instancia del hook y conservando el ID original, sin añadir características opcionales.)
 
-```text
-src/features/inventory/components/InventoryForm.jsx
-src/pages/InventoryPage.jsx
-```
+**Archivos afectados:**
+`src/pages/InventoryPage.jsx`
+`src/docs/PROGRESS.md`
 
-**Restricciones:** Implementar solo edición. No incorporar todavía estilos avanzados, Skiper UI, GSAP, localStorage, backend ni funcionalidades fuera del PRD.
+**Resultado generado:** Se implementó el estado `editingMedication` en `InventoryPage.jsx`. Se conectaron `handleEdit` y `handleCancel` al formulario, y se modificó `handleSubmit` para alternar entre `addMedication` y `updateMedication`.
+**Revisión humana:** Se verificó que `InventoryForm.jsx` ya soportaba la actualización de datos mediante el patrón de estado derivado, y que `useInventory.js` mantenía correctamente el identificador original.
+**Problemas encontrados:** Ninguno grave. Se ajustó el código para mantener la arquitectura sin modificar los componentes base.
+**Correcciones aplicadas:** Solo orquestación en la página principal.
+**Pruebas ejecutadas:** `npm run lint` y `npm run build`. Resultado exitoso.
+**Decisión:** Aprobado.
 
-**Estado:** Pendiente.
+### Iteración 07 — [Siguiente tarea]
 
 ## Plantilla para nuevas iteraciones
 

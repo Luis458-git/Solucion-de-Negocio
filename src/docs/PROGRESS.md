@@ -82,7 +82,7 @@ src/pages/InventoryPage.jsx
 
 | Funcionalidad | Estado |
 |---|---|
-| Editar un medicamento desde la interfaz | Pendiente |
+| Editar un medicamento desde la interfaz | Funciona |
 | Confirmar antes de eliminar | Pendiente |
 | Mostrar una métrica útil | Pendiente |
 | Conectar la página con `App.jsx` si todavía no está conectada | Pendiente de comprobar |
@@ -119,7 +119,7 @@ Se probará la aplicación como si se fuera el dueño del negocio: registro vál
 | Registro básico | Funciona |
 | Visualización en tabla | Funciona |
 | Clasificación de stock | Funciona |
-| Edición | Pendiente |
+| Edición | Funciona |
 | Revisión posterior de lint/build | Debe ejecutarse después del último pull |
 
 ## Coordinación del equipo
@@ -136,3 +136,4 @@ Cada iteración debe indicar qué generó la IA, qué revisó el equipo, qué pr
 | 2026-09-03 | Usuario | `sebas` | Estructura de carpetas. | Revisión del compañero, lint y build. | Aprobado |
 | 2026-09-03 | Usuario | `sebas` | Lógica base del inventario. | Registro y validaciones básicas. | Aprobado para continuar |
 | 2026-09-03 | Luis | `Luis` → `sebas` | Formulario, tabla, fila y conexión inicial. | Pull integrado; lint y build correctos. | En progreso |
+| 2026-09-03 | Luis | `sebas` | Implementación de edición de medicamentos. | Lint, build y prueba manual. | Aprobado |
