@@ -29,7 +29,7 @@ Cada entrada debe indicar quién trabajó, en qué rama, qué archivos estaban i
 
 **Archivos creados o modificados:**
 
-```text
+```texto
 [Lista de rutas]
 ```
 
