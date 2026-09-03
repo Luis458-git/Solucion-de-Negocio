@@ -225,5 +225,3 @@ sebas
 Creación de estructura de carpetas.
 Revisión del compañero.
 Aprobado
-
-

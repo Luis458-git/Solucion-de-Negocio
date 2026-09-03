@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { validateMedication } from "../utils/inventoryValidation";
 
 const EMPTY_FORM = {
   name: "",
@@ -22,18 +23,10 @@ function normalizeInitialValues(values) {
   };
 }
 
+// Adapts validateMedication (returns { isValid, errors }) to the shape
+// expected by the form: a plain errors object.
 function defaultValidate(data) {
-  const errors = {};
-
-  if (!data.name || !data.name.trim()) {
-    errors.name = "El nombre es obligatorio.";
-  }
-
-  if (data.quantity === "" || !Number.isInteger(Number(data.quantity))) {
-    errors.quantity = "La cantidad debe ser un número entero.";
-  }
-
-  return errors;
+  return validateMedication(data).errors;
 }
 
 export default function InventoryForm({
