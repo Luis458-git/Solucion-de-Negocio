@@ -103,3 +103,31 @@ No se debe pasar a la siguiente fase hasta que la fase actual haya sido revisada
 | Fecha | Integrante | Cambio | Validación | Estado |
 |---|---|---|---|---|
 | 2026-09-03 | Equipo | Creación de documentación inicial. | Pendiente de revisión conjunta. | En revisión |
+
+Entendido. He tomado este PROMPT — FLUJO DE TRABAJO COMPARTIDO como las reglas de trabajo para este proyecto.
+Además, revisé la documentación disponible y el estado registrado del proyecto. La documentación establece que la lógica del inventario debe permanecer en src/features/inventory/, que se debe trabajar por fases y que antes de generar código debo presentar el plan y esperar autorización.
+Estado que tomaré como punto de partida
+
+• Repositorio: lmendezpozo-create/Solucion-de-Negocio.
+• Proyecto local: DrSimi.
+• Stack: React + Vite + JavaScript/JSX..
+• Arquitectura: feature-based híbrida..
+• Inventario: src/features/inventory/..
+• La estructura mínima de arquitectura ya fue creada y revisada..
+• El siguiente trabajo documentado puede comenzar con el modelo de medicamento y useInventory.js..
+• No introduciré TypeScript, backend, autenticación, ventas, proveedores ni funcionalidades fuera del PRD..
+• No utilizaré GSAP/Skiper UI todavía; esas mejoras corresponden a una etapa posterior a la funcionalidad base..
+También respetaré estrictamente
+Describe → Genera → Revisa → Prueba → Refina
+Y no avanzaré automáticamente de una tarea a otra.
+Cuando corresponda trabajar en código, primero entregaré:
+
+1. Plan de la fase.
+2. Qué se hará.
+3. Qué NO se hará.
+4. Archivos afectados.
+5. Dependencias necesarias.
+6. Esperaré tu confirmación humana.
+7. Solo entonces generaré los archivos completos.
+8. Después indicaré validaciones, PROGRESS.md, PROMPTS.md y los pasos de Git..
+No haré modificaciones todavía. Quedo a la espera de tu autorización para iniciar la siguiente tarea.
