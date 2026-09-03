@@ -1,16 +1,69 @@
-# React + Vite
+# Sistema de control de inventario farmacéutico
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Aplicación web frontend para registrar, consultar y controlar el inventario de medicamentos y suministros de una farmacia comunitaria. El proyecto se desarrolla como un MVP con React y Vite, siguiendo una arquitectura feature-based híbrida y un proceso de trabajo iterativo con revisión humana.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Objetivo del MVP
 
-## React Compiler
+El sistema permitirá registrar medicamentos, validarlos, mostrarlos en una tabla, identificar productos con stock bajo o agotado, editar y eliminar registros, y consultar métricas básicas del inventario.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologías
 
-## Expanding the ESLint configuration
+React, Vite, JavaScript/JSX, Tailwind CSS, shadcn/ui, Lucide React, ESLint, GSAP y `@gsap/react`. Skiper UI se utilizará únicamente cuando un componente gratuito aporte valor real y pueda adaptarse correctamente al proyecto.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalación
+
+```bash
+npm install
+```
+
+## Desarrollo
+
+```bash
+npm run dev
+```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Documentación del repositorio
+
+| Archivo | Propósito |
+|---|---|
+| `PRD.md` | Define qué se debe construir y qué queda fuera del MVP. |
+| `ARCHITECTURE.md` | Define cómo se organiza y construye el proyecto. |
+| `AGENTS.md` | Contiene las reglas para asistentes de IA. |
+| `DESIGN.md` | Define la identidad visual, componentes, estados y animaciones. |
+| `PROGRESS.md` | Registra el estado actual y las fases completadas. |
+| `PROMPTS.md` | Conserva la bitácora de prompts, revisiones y validaciones. |
+| `REFLECTION.md` | Se completa al final para documentar el aprendizaje del equipo. |
+
+## Forma de trabajo
+
+El proyecto se desarrolla mediante fases cortas. Cada fase sigue el ciclo:
+
+```text
+Describe → Genera → Revisa → Prueba → Refina
+```
+
+No se debe avanzar de fase hasta que ambos integrantes hayan revisado los cambios, ejecutado las validaciones correspondientes y actualizado `PROGRESS.md` y `PROMPTS.md`.
+
+## Trabajo en pareja
+
+Cada integrante debe trabajar en su propia rama y carpeta de desarrollo, evitando modificar simultáneamente los mismos archivos sin coordinación. Antes de comenzar una tarea se debe actualizar la rama con los cambios aceptados del repositorio. Antes de crear un pull request se deben ejecutar lint, build y las pruebas disponibles.
+
+Los commits deben ser pequeños y representar una unidad lógica de trabajo. El pull request debe explicar qué se cambió, qué archivos fueron afectados, cómo se validó y qué queda pendiente.
+
+## Estado del proyecto
+
+Consultar `PROGRESS.md` para conocer la fase actual, las tareas terminadas y las tareas pendientes.
