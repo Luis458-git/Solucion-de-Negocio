@@ -1,452 +1,339 @@
-.inventory-page {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 48px 0 72px;
+:root {
+  --page-bg: #f3f7f5;
+  --ink-strong: #10201c;
+  --ink: #17211f;
+  --muted: #6b7b74;
+  --surface: #ffffff;
+  --surface-soft: #f2f7f4;
+  --surface-raised: #fbfdfc;
+  --line: #d8e6df;
+
+  --primary: #146c5a;
+  --primary-dark: #0b4f43;
+  --primary-deep: #083f35;
+  --primary-soft: #e1f2eb;
+
+  --warning: #a96800;
+  --warning-soft: #fff1d0;
+
+  --danger: #b43d45;
+  --danger-soft: #fde7e8;
+
+  --shadow-xs: 0 4px 12px rgba(24, 67, 53, 0.05);
+  --shadow-sm: 0 12px 32px rgba(24, 67, 53, 0.07);
+  --shadow-md: 0 20px 44px rgba(24, 67, 53, 0.1);
+  --shadow-lg: 0 30px 72px rgba(17, 57, 45, 0.14);
+  --shadow-xl: 0 38px 100px rgba(9, 35, 28, 0.24);
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--page-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(175, 227, 207, 0.36),
+      transparent 30rem
+    ),
+    radial-gradient(
+      circle at 100% 12%,
+      rgba(255, 228, 175, 0.18),
+      transparent 24rem
+    ),
+    linear-gradient(180deg, #f9fcfa 0%, #eef5f2 100%);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+article:focus-visible {
+  outline: 3px solid rgba(20, 108, 90, 0.25);
+  outline-offset: 3px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   PÁGINA
+   ========================================================================== */
+
+.inventory-page {
+  width: min(1220px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 42px 0 96px;
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+
 .inventory-page__header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 28px;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 36px;
+  padding: 54px 58px;
+  border: 1px solid rgba(153, 196, 178, 0.66);
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.99),
+      rgba(232, 247, 240, 0.95)
+    );
+  box-shadow: 0 28px 72px rgba(37, 78, 62, 0.11);
+}
+
+.inventory-page__header::before {
+  position: absolute;
+  z-index: -1;
+  top: -200px;
+  right: -130px;
+  width: 470px;
+  height: 470px;
+  border: 54px solid rgba(20, 108, 90, 0.07);
+  border-radius: 50%;
+  content: "";
+}
+
+.inventory-page__header::after {
+  position: absolute;
+  z-index: -1;
+  right: 26%;
+  bottom: -220px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.48);
+  filter: blur(4px);
+  content: "";
 }
 
 .inventory-page__eyebrow {
-  margin: 0;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid rgba(20, 108, 90, 0.14);
+  border-radius: 999px;
+  background: rgba(223, 241, 233, 0.84);
   color: var(--primary);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
 .inventory-page__title {
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(2rem, 5vw, 3.8rem);
-  line-height: 1;
-  letter-spacing: -0.06em;
+  max-width: 820px;
+  margin: 20px 0 0;
+  color: var(--ink-strong);
+  font-size: clamp(2.9rem, 6vw, 5.3rem);
+  font-weight: 900;
+  line-height: 0.93;
+  letter-spacing: -0.078em;
 }
 
 .inventory-page__description {
   max-width: 620px;
-  margin: 0;
-  color: var(--muted);
-  font-size: 1.05rem;
+  margin: 20px 0 0;
+  color: #607169;
+  font-size: 1.03rem;
+  line-height: 1.75;
 }
 
-.inventory-page__form-section {
-  margin: 30px 0;
-}
-
-.inventory-page__table-section {
-  margin-top: 34px;
-}
+/* ==========================================================================
+   ESTADÍSTICAS
+   ========================================================================== */
 
 .inventory-stats {
-  margin-bottom: 26px;
+  margin-bottom: 38px;
 }
 
 .inventory-stats h2 {
-  margin: 0 0 14px;
-  color: var(--ink);
-  font-size: 1rem;
+  margin: 0 0 15px;
+  color: #6a7a73;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .inventory-stats__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .inventory-stats__card {
-  min-height: 108px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  min-height: 138px;
+  padding: 23px;
+  border: 1px solid rgba(197, 218, 208, 0.95);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
   box-shadow: var(--shadow-sm);
 }
 
+.inventory-stats__card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #1e8a72,
+    rgba(30, 138, 114, 0)
+  );
+  content: "";
+}
+
+.inventory-stats__card:nth-child(3)::before {
+  background: linear-gradient(
+    90deg,
+    #d49320,
+    rgba(212, 147, 32, 0)
+  );
+}
+
+.inventory-stats__card:nth-child(4)::before {
+  background: linear-gradient(
+    90deg,
+    #c7525b,
+    rgba(199, 82, 91, 0)
+  );
+}
+
+.inventory-stats__card::after {
+  position: absolute;
+  right: -38px;
+  bottom: -52px;
+  width: 116px;
+  height: 116px;
+  border: 17px solid rgba(20, 108, 90, 0.06);
+  border-radius: 50%;
+  content: "";
+}
+
 .inventory-stats__label {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 0.84rem;
+  margin: 0 0 16px;
+  color: #778780;
+  font-size: 0.79rem;
+  font-weight: 700;
 }
 
 .inventory-stats__value {
   color: var(--primary-dark);
-  font-size: 2rem;
+  font-size: 2.7rem;
+  font-weight: 900;
   line-height: 1;
+  letter-spacing: -0.065em;
 }
 
-.inventory-table__grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.inventory-card {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-}
-
-.inventory-card:hover {
-  border-color: rgba(20, 108, 90, 0.4);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-5px);
-}
-
-.inventory-card__image-wrapper,
-.medication-detail__image-wrapper {
-  display: grid;
-  min-height: 170px;
-  place-items: center;
-  background: linear-gradient(135deg, #e2f3eb, #c9e8dc);
-}
-
-.inventory-card__image,
-.medication-detail__image {
-  width: 100%;
-  height: 100%;
-  min-height: 170px;
-  object-fit: cover;
-}
-
-.inventory-card__image-placeholder,
-.medication-detail__image-placeholder {
-  display: grid;
-  width: 82px;
-  height: 82px;
-  place-items: center;
-  border-radius: 24px;
-  background: var(--primary);
-  color: white;
-  font-size: 2.2rem;
-  font-weight: 800;
-}
-
-.inventory-card__content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 10px;
-  padding: 18px;
-}
-
-.inventory-card__category,
-.medication-detail__category {
-  margin: 0;
-  color: var(--primary);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.inventory-card__name {
-  margin: 0;
-  color: var(--ink);
-  font-size: 1.2rem;
-  line-height: 1.15;
-}
-
-.inventory-card__summary {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.inventory-card__status {
-  align-self: flex-start;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  font-size: 0.78rem;
-  font-weight: 800;
-}
-
-.inventory-card__status--stock-bajo {
-  background: var(--warning-soft);
+.inventory-stats__card:nth-child(3) .inventory-stats__value {
   color: var(--warning);
 }
 
-.inventory-card__status--agotado {
-  background: var(--danger-soft);
+.inventory-stats__card:nth-child(4) .inventory-stats__value {
   color: var(--danger);
 }
 
-.inventory-card__actions,
-.medication-detail__actions,
-.delete-dialog__actions {
-  display: flex;
-  gap: 8px;
-  padding: 0 18px 18px;
-}
+/* ==========================================================================
+   FORMULARIO
+   ========================================================================== */
 
-.inventory-card__actions button,
-.medication-detail__actions button,
-.delete-dialog__actions button,
-.undo-notification button {
-  border: 0;
-  border-radius: 10px;
-  padding: 9px 12px;
-  background: var(--surface-soft);
-  color: var(--primary-dark);
-  font-weight: 750;
-  transition: background 160ms ease, transform 160ms ease;
-}
-
-.inventory-card__actions button:hover,
-.medication-detail__actions button:hover,
-.delete-dialog__actions button:hover,
-.undo-notification button:hover {
-  background: var(--primary-soft);
-  transform: translateY(-1px);
-}
-
-.inventory-card__actions button:last-child,
-.medication-detail__actions button:last-child,
-.delete-dialog__actions button:last-child {
-  background: var(--danger-soft);
-  color: var(--danger);
-}
-
-.inventory-table__empty-state {
-  padding: 48px 20px;
-  border: 1px dashed #a9c5b8;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.65);
-  color: var(--muted);
-  text-align: center;
-}
-
-.medication-detail__backdrop,
-.delete-dialog__backdrop {
-  position: fixed;
-  z-index: 20;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: rgba(15, 34, 28, 0.58);
-}
-
-.medication-detail,
-.delete-dialog {
-  width: min(520px, 100%);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 26px;
-  background: var(--surface);
-  box-shadow: var(--shadow-lg);
-}
-
-.medication-detail {
-  position: relative;
-}
-
-.medication-detail__close {
-  position: absolute;
-  z-index: 1;
-  top: 14px;
-  right: 14px;
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--ink);
-  font-size: 1.5rem;
-}
-
-.medication-detail__content,
-.delete-dialog {
-  padding: 24px;
-}
-
-.medication-detail__content h2,
-.delete-dialog h2 {
-  margin: 6px 0 22px;
-  color: var(--ink);
-  font-size: 1.8rem;
-  letter-spacing: -0.04em;
-}
-
-.medication-detail__data {
-  display: grid;
-  gap: 12px;
-  margin: 0 0 24px;
-}
-
-.medication-detail__data div {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-
-.medication-detail__data dt {
-  color: var(--muted);
-}
-
-.medication-detail__data dd {
-  margin: 0;
-  color: var(--ink);
-  font-weight: 800;
-  text-align: right;
-}
-
-.medication-detail__actions {
-  padding: 0;
-}
-
-.delete-dialog p {
-  margin: 0 0 22px;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.delete-dialog__actions {
-  justify-content: flex-end;
-  padding: 0;
-}
-
-.undo-notification {
-  position: fixed;
-  z-index: 30;
-  right: 24px;
-  bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  max-width: calc(100% - 48px);
-  padding: 14px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 16px;
-  background: #17211f;
-  color: white;
-  box-shadow: var(--shadow-lg);
-}
-
-.undo-notification button {
-  padding: 7px 10px;
-  background: #dff1e9;
-  color: #0d4f43;
-}
-
-@media (max-width: 960px) {
-  .inventory-table__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 760px) {
-  .inventory-page {
-    width: min(100% - 28px, 620px);
-    padding: 28px 0 48px;
-  }
-
-  .inventory-stats__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .inventory-table__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .inventory-table__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .inventory-card__actions {
-    flex-direction: column;
-  }
-
-  .inventory-card__actions button {
-    width: 100%;
-  }
-
-  .medication-detail__data div {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .medication-detail__data dd {
-    text-align: left;
-  }
-
-  .undo-notification {
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
-    justify-content: space-between;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
+.inventory-page__form-section {
+  margin: 0 0 20px;
 }
 
 .inventory-form {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  padding: 22px;
-  border: 1px solid var(--line);
+  gap: 14px;
+  padding: 25px;
+  border: 1px solid rgba(198, 217, 208, 0.96);
   border-radius: 24px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 44px rgba(37, 78, 62, 0.075);
 }
 
 .inventory-form__field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
 
 .inventory-form__field label {
-  color: var(--ink);
-  font-size: 0.82rem;
-  font-weight: 800;
+  color: #31433b;
+  font-size: 0.74rem;
+  font-weight: 850;
 }
 
 .inventory-form__input {
   width: 100%;
-  min-height: 44px;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid #d5e4dc;
+  border-radius: 13px;
   background: #fbfdfc;
   color: var(--ink);
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  box-shadow: inset 0 1px 2px rgba(19, 48, 39, 0.025);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.inventory-form__input:hover {
+  border-color: #bfd6ca;
+  background: #ffffff;
 }
 
 .inventory-form__input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(20, 108, 90, 0.12);
+  box-shadow: 0 0 0 4px rgba(20, 108, 90, 0.11);
   outline: none;
 }
 
@@ -459,7 +346,7 @@
   margin: 0;
   color: var(--danger);
   font-size: 0.76rem;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .inventory-form__actions {
@@ -467,80 +354,87 @@
   grid-column: 1 / -1;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .inventory-form__actions button {
-  min-height: 44px;
-  padding: 10px 16px;
+  min-height: 45px;
+  padding: 10px 17px;
   border: 0;
-  border-radius: 12px;
-  background: var(--primary);
-  color: white;
-  font-weight: 800;
-  transition: background 160ms ease, transform 160ms ease;
+  border-radius: 13px;
+  font-size: 0.83rem;
+  font-weight: 850;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
-.inventory-form__actions button:hover {
-  background: var(--primary-dark);
-  transform: translateY(-1px);
+.inventory-form__actions button[type="submit"] {
+  min-width: 190px;
+  background: linear-gradient(135deg, #167966, #0d5d4f);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(16, 103, 84, 0.2);
+}
+
+.inventory-form__actions button[type="submit"]:hover {
+  background: linear-gradient(135deg, #106b59, #094f43);
+  box-shadow: 0 13px 28px rgba(16, 103, 84, 0.25);
+  transform: translateY(-2px);
 }
 
 .inventory-form__actions button[type="button"] {
-  background: var(--surface-soft);
-  color: var(--primary-dark);
+  border: 1px solid #d8e5de;
+  background: #f5f9f7;
+  color: #27584c;
 }
 
-@media (max-width: 760px) {
-  .inventory-form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.inventory-form__actions button[type="button"]:hover {
+  border-color: #c6dbd1;
+  background: #edf5f1;
+  transform: translateY(-1px);
 }
 
-@media (max-width: 480px) {
-  .inventory-form {
-    grid-template-columns: 1fr;
-    padding: 18px;
-  }
-
-  .inventory-form__actions {
-    flex-direction: column;
-  }
-
-  .inventory-form__actions button {
-    width: 100%;
-  }
-}
+/* ==========================================================================
+   IMPORTACIÓN
+   ========================================================================== */
 
 .medication-import {
-  margin-top: 24px;
-  padding: 22px;
-  border: 1px solid var(--line);
+  margin-top: 0;
+  padding: 25px;
+  border: 1px solid rgba(198, 217, 208, 0.96);
   border-radius: 24px;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(239, 248, 244, 0.96)
+    );
+  box-shadow: 0 18px 44px rgba(37, 78, 62, 0.075);
 }
 
 .medication-import__header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 18px;
 }
 
 .medication-import__eyebrow {
-  margin: 0 0 6px;
+  margin: 0 0 7px;
   color: var(--primary);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .medication-import h2 {
-  margin: 0 0 6px;
-  color: var(--ink);
-  font-size: 1.35rem;
+  margin: 0 0 8px;
+  color: var(--ink-strong);
+  font-size: 1.45rem;
+  font-weight: 850;
+  letter-spacing: -0.035em;
 }
 
 .medication-import__header p:last-child,
@@ -549,24 +443,34 @@
   margin: 0;
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .medication-import__file-button {
   display: inline-flex;
-  min-height: 44px;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
-  border-radius: 12px;
-  background: var(--primary);
-  color: white;
+  min-height: 45px;
+  min-width: 180px;
+  padding: 10px 17px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #167966, #0d5d4f);
+  color: #ffffff;
   cursor: pointer;
-  font-weight: 800;
+  font-size: 0.83rem;
+  font-weight: 850;
   white-space: nowrap;
+  box-shadow: 0 10px 22px rgba(16, 103, 84, 0.18);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
 }
 
 .medication-import__file-button:hover {
-  background: var(--primary-dark);
+  background: linear-gradient(135deg, #106b59, #094f43);
+  box-shadow: 0 13px 28px rgba(16, 103, 84, 0.24);
+  transform: translateY(-2px);
 }
 
 .medication-import__file-button input {
@@ -579,14 +483,27 @@
 
 .medication-import__filename {
   margin-top: 16px;
+  font-weight: 700;
+}
+
+.medication-import__error,
+.medication-import__success {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 13px;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .medication-import__error {
-  margin: 16px 0 0;
-  padding: 12px;
-  border-radius: 12px;
   background: var(--danger-soft);
   color: var(--danger);
+}
+
+.medication-import__success {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-weight: 750;
 }
 
 .medication-import__summary {
@@ -679,22 +596,680 @@
 }
 
 .medication-import__actions button {
-  min-height: 44px;
-  padding: 10px 16px;
+  min-height: 45px;
+  padding: 10px 17px;
   border: 0;
-  border-radius: 12px;
-  background: var(--primary);
-  color: white;
-  font-weight: 800;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #167966, #0d5d4f);
+  color: #ffffff;
+  font-size: 0.83rem;
+  font-weight: 850;
+  box-shadow: 0 10px 22px rgba(16, 103, 84, 0.18);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.medication-import__actions button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #106b59, #094f43);
+  box-shadow: 0 13px 28px rgba(16, 103, 84, 0.24);
+  transform: translateY(-2px);
 }
 
 .medication-import__actions button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
+  box-shadow: none;
 }
 
-@media (max-width: 640px) {
+/* ==========================================================================
+   CATÁLOGO
+   ========================================================================== */
+
+.inventory-page__table-section {
+  margin-top: 48px;
+}
+
+.inventory-table__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+/* ==========================================================================
+   TARJETA DE MEDICAMENTO
+   ========================================================================== */
+
+.inventory-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(187, 211, 199, 0.95);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 42px rgba(37, 78, 62, 0.09);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  animation: inventory-card-enter 420ms ease both;
+}
+
+.inventory-card::before {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1e8a72, #78cdb0);
+  content: "";
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.inventory-card:hover {
+  border-color: rgba(76, 148, 125, 0.56);
+  box-shadow: 0 30px 62px rgba(37, 78, 62, 0.14);
+  transform: translateY(-8px);
+}
+
+.inventory-card:hover::before {
+  opacity: 1;
+}
+
+.inventory-card__open {
+  display: flex;
+  flex: 1;
+  min-height: 100%;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+}
+
+.inventory-card__open:focus-visible {
+  outline: 3px solid rgba(20, 108, 90, 0.28);
+  outline-offset: -3px;
+}
+
+/* ==========================================================================
+   IMAGEN
+   ========================================================================== */
+
+.inventory-card__image-wrapper,
+.medication-detail__image-wrapper {
+  position: relative;
+  display: grid;
+  min-height: 212px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 30% 18%,
+      rgba(255, 255, 255, 0.56),
+      transparent 26%
+    ),
+    linear-gradient(
+      145deg,
+      #e1f2e9 0%,
+      #cce8dc 54%,
+      #b9dccd 100%
+    );
+}
+
+.inventory-card__image-wrapper::before,
+.medication-detail__image-wrapper::before {
+  position: absolute;
+  top: -42px;
+  left: -40px;
+  width: 150px;
+  height: 150px;
+  border: 22px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  content: "";
+}
+
+.inventory-card__image-wrapper::after {
+  position: absolute;
+  right: 18px;
+  bottom: 15px;
+  width: 78px;
+  height: 78px;
+  border: 14px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  content: "";
+}
+
+.inventory-card__image,
+.medication-detail__image {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 212px;
+  object-fit: cover;
+}
+
+.inventory-card__image-placeholder,
+.medication-detail__image-placeholder {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 96px;
+  height: 96px;
+  place-items: center;
+  border: 7px solid rgba(255, 255, 255, 0.44);
+  border-radius: 30px;
+  background: linear-gradient(145deg, #197c68, #0d5b4d);
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 900;
+  box-shadow: 0 18px 30px rgba(15, 92, 75, 0.24);
+}
+
+/* ==========================================================================
+   CONTENIDO DE TARJETA
+   ========================================================================== */
+
+.inventory-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 11px;
+  padding: 21px 21px 18px;
+}
+
+.inventory-card__category,
+.medication-detail__category {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  margin: 0;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #edf7f3;
+  color: #18705e;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.inventory-card__name {
+  max-width: 100%;
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 1.42rem;
+  font-weight: 850;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.inventory-card__summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.inventory-card__summary span {
+  display: flex;
+  min-height: 52px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 11px;
+  border: 1px solid #e0ebe5;
+  border-radius: 13px;
+  background: #f8fbf9;
+  color: #546d64;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.inventory-card__summary span:first-child {
+  color: #48635a;
+  font-weight: 700;
+}
+
+.inventory-card__summary span:last-child {
+  color: #245b4e;
+  font-weight: 850;
+}
+
+.inventory-card__status {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+  padding: 7px 10px 7px 9px;
+  border: 1px solid rgba(68, 154, 127, 0.16);
+  border-radius: 999px;
+  background: #e8f6ef;
+  color: #15705b;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.inventory-card__status::before {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.inventory-card__status--stock-bajo {
+  border-color: rgba(205, 145, 32, 0.16);
+  background: #fff3d9;
+  color: #a46800;
+}
+
+.inventory-card__status--agotado {
+  border-color: rgba(180, 61, 69, 0.16);
+  background: #fde8e9;
+  color: #b43d45;
+}
+
+/* ==========================================================================
+   ACCIONES
+   ========================================================================== */
+
+.inventory-card__actions {
+  display: grid;
+  grid-template-columns: 1fr 0.88fr;
+  gap: 9px;
+  padding: 0 21px 21px;
+}
+
+.inventory-card__actions button,
+.medication-detail__actions button,
+.delete-dialog__actions button,
+.undo-notification button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid #dce8e1;
+  border-radius: 13px;
+  background: #f4f8f6;
+  color: #2d5d51;
+  font-size: 0.78rem;
+  font-weight: 850;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.inventory-card__actions button:hover,
+.medication-detail__actions button:hover,
+.delete-dialog__actions button:hover,
+.undo-notification button:hover {
+  transform: translateY(-1px);
+}
+
+.inventory-card__actions button:first-child,
+.medication-detail__actions button:first-child {
+  border-color: rgba(20, 108, 90, 0.16);
+  background: #e8f4ef;
+  color: #125b4d;
+}
+
+.inventory-card__actions button:first-child:hover,
+.medication-detail__actions button:first-child:hover {
+  border-color: rgba(20, 108, 90, 0.22);
+  background: #dff0e9;
+  box-shadow: 0 8px 18px rgba(20, 108, 90, 0.09);
+}
+
+.inventory-card__actions button:last-child,
+.medication-detail__actions button:last-child,
+.delete-dialog__actions button:last-child {
+  border-color: rgba(180, 61, 69, 0.12);
+  background: #fff6f6;
+  color: #a6474f;
+}
+
+.inventory-card__actions button:last-child:hover,
+.medication-detail__actions button:last-child:hover,
+.delete-dialog__actions button:last-child:hover {
+  border-color: rgba(180, 61, 69, 0.2);
+  background: #fdecec;
+}
+
+.inventory-card__actions svg,
+.medication-detail__actions svg,
+.delete-dialog__actions svg,
+.undo-notification svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+}
+
+/* ==========================================================================
+   ESTADO VACÍO
+   ========================================================================== */
+
+.inventory-table__empty-state {
+  display: grid;
+  min-height: 250px;
+  place-items: center;
+  padding: 48px 20px;
+  border: 1px solid rgba(181, 207, 194, 0.9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--muted);
+  text-align: center;
+  box-shadow: 0 16px 36px rgba(37, 78, 62, 0.06);
+}
+
+/* ==========================================================================
+   MODAL DE DETALLE
+   ========================================================================== */
+
+.medication-detail__backdrop,
+.delete-dialog__backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(8, 25, 21, 0.62);
+  animation: overlay-enter 180ms ease both;
+}
+
+.medication-detail,
+.delete-dialog {
+  width: min(540px, 100%);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 30px;
+  background: var(--surface);
+  box-shadow: var(--shadow-xl);
+  animation: dialog-enter 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.medication-detail {
+  position: relative;
+}
+
+.medication-detail__close {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(24, 63, 52, 0.08);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  box-shadow: 0 8px 18px rgba(20, 55, 43, 0.1);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.medication-detail__close:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.medication-detail__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.medication-detail__content,
+.delete-dialog {
+  padding: 26px;
+}
+
+.medication-detail__content h2,
+.delete-dialog h2,
+.medication-detail__edit-content h2 {
+  margin: 8px 0 22px;
+  color: var(--ink-strong);
+  font-size: 1.95rem;
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.medication-detail__data {
+  display: grid;
+  gap: 0;
+  margin: 0 0 24px;
+}
+
+.medication-detail__data div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.medication-detail__data div:last-child {
+  border-bottom: 0;
+}
+
+.medication-detail__data dt {
+  color: var(--muted);
+}
+
+.medication-detail__data dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 850;
+  text-align: right;
+}
+
+.medication-detail__actions,
+.delete-dialog__actions {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+}
+
+.medication-detail__actions button,
+.delete-dialog__actions button {
+  flex: 1;
+}
+
+.delete-dialog p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.delete-dialog__actions {
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   EDICIÓN EN MODAL
+   ========================================================================== */
+
+.medication-detail__edit-content {
+  padding: 26px;
+}
+
+.medication-detail__edit-content h2 {
+  margin-bottom: 20px;
+}
+
+.medication-detail__edit-content .inventory-form {
+  grid-template-columns: 1fr;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.medication-detail__edit-content .inventory-form__actions {
+  justify-content: stretch;
+}
+
+.medication-detail__edit-content .inventory-form__actions button {
+  flex: 1;
+}
+
+/* ==========================================================================
+   NOTIFICACIÓN UNDO
+   ========================================================================== */
+
+.undo-notification {
+  position: fixed;
+  z-index: 30;
+  right: 26px;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: calc(100% - 52px);
+  padding: 12px 13px 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: #15231f;
+  color: #ffffff;
+  box-shadow: 0 24px 50px rgba(15, 39, 31, 0.25);
+  animation: notification-enter 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.undo-notification button {
+  min-height: 36px;
+  padding: 7px 10px;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: #dff1e9;
+  color: #0d4f43;
+}
+
+.undo-notification button:hover {
+  background: #cde8dd;
+}
+
+/* ==========================================================================
+   ANIMACIONES
+   ========================================================================== */
+
+@keyframes inventory-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes overlay-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes notification-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1050px) {
+  .inventory-page {
+    width: min(100% - 36px, 900px);
+  }
+
+  .inventory-table__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .inventory-page {
+    width: min(100% - 28px, 640px);
+    padding: 26px 0 56px;
+  }
+
+  .inventory-page__header {
+    margin-bottom: 28px;
+    padding: 36px 26px;
+    border-radius: 26px;
+  }
+
+  .inventory-page__title {
+    font-size: clamp(2.45rem, 12vw, 4rem);
+  }
+
+  .inventory-stats {
+    margin-bottom: 28px;
+  }
+
+  .inventory-stats__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .inventory-stats__card {
+    min-height: 116px;
+    padding: 17px;
+  }
+
+  .inventory-stats__value {
+    font-size: 2.2rem;
+  }
+
+  .inventory-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 20px;
+  }
+
   .medication-import__header {
+    align-items: flex-start;
     flex-direction: column;
   }
 
@@ -707,362 +1282,99 @@
   }
 }
 
-.medication-detail__edit-content {
-  padding: 24px;
-}
-
-.medication-detail__edit-content h2 {
-  margin-bottom: 20px;
-}
-
-.medication-detail__edit-content .inventory-form {
-  grid-template-columns: 1fr;
-  padding: 0;
-  border: 0;
-  box-shadow: none;
-}
-
-.medication-detail__edit-content .inventory-form__actions {
-  justify-content: stretch;
-}
-
-.medication-detail__edit-content .inventory-form__actions button {
-  flex: 1;
-}
-/* Motion layer: transitions are decorative and can be disabled by the user. */
-.inventory-card {
-  animation: inventory-card-enter 420ms ease both;
-}
-
-.inventory-card__open {
-  cursor: pointer;
-  transition: background-color 180ms ease;
-}
-
-.inventory-card__open:hover {
-  background: rgba(223, 241, 233, 0.32);
-}
-
-.inventory-card__open:focus-visible {
-  outline: 3px solid rgba(20, 108, 90, 0.35);
-  outline-offset: -3px;
-}
-
-.medication-detail__backdrop,
-.delete-dialog__backdrop {
-  animation: overlay-enter 180ms ease both;
-}
-
-.medication-detail,
-.delete-dialog {
-  animation: dialog-enter 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.undo-notification {
-  animation: notification-enter 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-@keyframes inventory-card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+@media (max-width: 640px) {
+  .inventory-table__grid {
+    grid-template-columns: 1fr;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .inventory-card__image-wrapper,
+  .inventory-card__image,
+  .medication-detail__image-wrapper,
+  .medication-detail__image {
+    min-height: 195px;
+  }
+
+  .inventory-card__summary {
+    grid-template-columns: 1fr;
   }
 }
 
-@keyframes overlay-enter {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes dialog-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes notification-enter {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .inventory-card,
-  .medication-detail__backdrop,
-  .delete-dialog__backdrop,
-  .medication-detail,
-  .delete-dialog,
-  .undo-notification {
-    animation: none;
-  }
-}
-/* Premium UI layer: visual refinement without changing business logic. */
-body {
-  background:
-    radial-gradient(circle at 8% 0%, rgba(183, 227, 207, 0.38), transparent 28rem),
-    radial-gradient(circle at 100% 12%, rgba(255, 229, 174, 0.2), transparent 24rem),
-    #f3f7f4;
-}
-
-.inventory-page {
-  width: min(1240px, calc(100% - 48px));
-  padding: 54px 0 96px;
-}
-
-.inventory-page__header {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  margin-bottom: 28px;
-  padding: 44px 48px;
-  border: 1px solid rgba(162, 199, 184, 0.7);
-  border-radius: 32px;
-  background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(232, 247, 239, 0.92)),
-    var(--surface);
-  box-shadow: 0 22px 65px rgba(37, 78, 62, 0.12);
-}
-
-.inventory-page__header::after {
-  position: absolute;
-  z-index: -1;
-  top: -130px;
-  right: -80px;
-  width: 360px;
-  height: 360px;
-  border: 42px solid rgba(20, 108, 90, 0.08);
-  border-radius: 50%;
-  content: "";
-}
-
-.inventory-page__eyebrow {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 11px;
-  border: 1px solid rgba(20, 108, 90, 0.15);
-  border-radius: 999px;
-  background: rgba(223, 241, 233, 0.7);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-}
-
-.inventory-page__title {
-  max-width: 780px;
-  margin-top: 18px;
-  font-size: clamp(2.5rem, 6vw, 5.6rem);
-  letter-spacing: -0.075em;
-}
-
-.inventory-page__description {
-  max-width: 560px;
-  font-size: 1.08rem;
-  line-height: 1.7;
-}
-
-.inventory-stats {
-  margin-bottom: 32px;
-}
-
-.inventory-stats h2 {
-  margin-bottom: 15px;
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.inventory-stats__grid {
-  gap: 16px;
-}
-
-.inventory-stats__card {
-  position: relative;
-  overflow: hidden;
-  min-height: 132px;
-  padding: 23px;
-  border-radius: 22px;
-  box-shadow: 0 12px 32px rgba(37, 78, 62, 0.07);
-}
-
-.inventory-stats__card::after {
-  position: absolute;
-  right: -34px;
-  bottom: -50px;
-  width: 110px;
-  height: 110px;
-  border: 18px solid rgba(20, 108, 90, 0.08);
-  border-radius: 50%;
-  content: "";
-}
-
-.inventory-stats__card:nth-child(3) .inventory-stats__value {
-  color: var(--warning);
-}
-
-.inventory-stats__card:nth-child(4) .inventory-stats__value {
-  color: var(--danger);
-}
-
-.inventory-stats__value {
-  font-size: 2.5rem;
-  font-weight: 850;
-  letter-spacing: -0.06em;
-}
-
-.inventory-page__form-section {
-  margin: 0 0 18px;
-}
-
-.inventory-form {
-  padding: 26px;
-  border-radius: 24px;
-  box-shadow: 0 16px 42px rgba(37, 78, 62, 0.08);
-}
-
-.inventory-form__actions button[type="submit"] {
-  min-width: 188px;
-  box-shadow: 0 8px 18px rgba(20, 108, 90, 0.2);
-}
-
-.medication-import {
-  margin-top: 18px;
-  padding: 26px;
-  border-radius: 24px;
-  background: linear-gradient(135deg, #ffffff, #f0f8f3);
-  box-shadow: 0 16px 42px rgba(37, 78, 62, 0.08);
-}
-
-.medication-import__header {
-  align-items: center;
-}
-
-.medication-import__file-button {
-  min-width: 178px;
-  box-shadow: 0 8px 18px rgba(20, 108, 90, 0.18);
-}
-
-.medication-import__success {
-  margin: 16px 0 0;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  font-size: 0.9rem;
-  font-weight: 750;
-}
-
-.inventory-page__table-section {
-  margin-top: 38px;
-}
-
-.inventory-table__grid {
-  gap: 22px;
-}
-
-.inventory-card {
-  border-color: rgba(190, 214, 202, 0.8);
-  border-radius: 26px;
-  box-shadow: 0 13px 34px rgba(37, 78, 62, 0.08);
-}
-
-.inventory-card__open {
-  min-height: 100%;
-}
-
-.inventory-card__image-wrapper {
-  min-height: 192px;
-  background:
-    linear-gradient(135deg, rgba(219, 242, 231, 0.95), rgba(193, 226, 211, 0.95)),
-    #dff1e9;
-}
-
-.inventory-card__image-placeholder {
-  width: 92px;
-  height: 92px;
-  border: 8px solid rgba(255, 255, 255, 0.35);
-  border-radius: 30px;
-  box-shadow: 0 13px 24px rgba(20, 108, 90, 0.2);
-}
-
-.inventory-card__content {
-  gap: 12px;
-  padding: 20px;
-}
-
-.inventory-card__name {
-  font-size: 1.28rem;
-  letter-spacing: -0.035em;
-}
-
-.inventory-card__status {
-  margin-top: auto;
-  padding: 7px 11px;
-}
-
-.inventory-card__actions {
-  padding: 0 20px 20px;
-}
-
-.inventory-card__actions button {
-  flex: 1;
-  min-height: 40px;
-}
-
-.inventory-table__empty-state {
-  display: grid;
-  min-height: 210px;
-  place-items: center;
-  border-style: solid;
-  border-color: rgba(170, 201, 187, 0.8);
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-}
-
-@media (max-width: 760px) {
+@media (max-width: 480px) {
   .inventory-page {
-    width: min(100% - 28px, 620px);
-    padding-top: 24px;
+    width: min(100% - 20px, 640px);
   }
 
   .inventory-page__header {
-    padding: 30px 24px;
-    border-radius: 25px;
+    padding: 30px 21px;
   }
 
   .inventory-page__title {
-    font-size: clamp(2.35rem, 13vw, 4rem);
+    font-size: 2.35rem;
   }
 
-  .inventory-stats__grid {
-    gap: 10px;
+  .inventory-form,
+  .medication-import {
+    padding: 18px;
   }
 
-  .inventory-stats__card {
-    min-height: 116px;
-    padding: 16px;
+  .inventory-form {
+    grid-template-columns: 1fr;
   }
 
-  .inventory-stats__value {
-    font-size: 2.1rem;
+  .inventory-form__actions,
+  .medication-detail__actions,
+  .delete-dialog__actions {
+    flex-direction: column;
+  }
+
+  .inventory-form__actions button,
+  .medication-detail__actions button,
+  .delete-dialog__actions button {
+    width: 100%;
+  }
+
+  .inventory-card__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .medication-detail__data div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .medication-detail__data dd {
+    text-align: left;
+  }
+
+  .medication-detail__content,
+  .medication-detail__edit-content,
+  .delete-dialog {
+    padding: 20px;
+  }
+
+  .undo-notification {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    justify-content: space-between;
+  }
+}
+
+/* ==========================================================================
+   MOVIMIENTO REDUCIDO
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
