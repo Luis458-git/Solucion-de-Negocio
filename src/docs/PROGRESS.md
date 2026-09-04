@@ -2,13 +2,13 @@
 
 ## Estado actual
 
-**Fase de la práctica:** Fase 2 — Funcionalidad central, avanzando hacia Fase 3 — Importación y Fase 4 — Pulido.
+**Fase de la práctica:** Fase 4 — Pulido, validación y preparación de la demo.
 
 **Rama de desarrollo:** `sebas`.
 
 **Rama `main`:** No se utilizará durante el desarrollo. Solo se revisará al finalizar y validar el proyecto completo.
 
-**Estado:** Alpha funcional con métricas y una primera versión de tarjetas. La publicación actual de tarjetas y detalle requiere corrección antes de considerarse aprobada.
+**Estado:** MVP funcional con registro manual, tarjetas, detalle, edición dentro del modal, validación, prevención de duplicados, moneda costarricense, eliminación con confirmación propia, Deshacer, importación CSV/Excel, persistencia local y transiciones accesibles.
 
 ## Fuente de verdad
 
@@ -18,7 +18,7 @@ Los documentos se encuentran en `src/docs/`. La jerarquía es:
 PLANIFICACIÓN → ARQUITECTURA → DESARROLLO → DISEÑO → INTERACCIONES → VALIDACIÓN
 ```
 
-La metodología es:
+La metodología aplicada es:
 
 ```text
 Describe → Genera → Revisa → Prueba → Refina
@@ -28,86 +28,108 @@ Describe → Genera → Revisa → Prueba → Refina
 
 ### Fase 0 — Intención
 
-Completada. El usuario es el encargado de una farmacia pequeña y el problema es sustituir inventarios manuales por una consulta visual y rápida.
+Completada. El usuario es el encargado de una farmacia pequeña y el problema es sustituir inventarios manuales en papel por una consulta visual, rápida y práctica.
 
 ### Fase 1 — Prototipo
 
-Completada. El scaffold React + Vite, la estructura feature-based, el formulario, la tabla inicial y la lógica base fueron creados y validados.
+Completada. Se creó y validó el scaffold React + Vite, la estructura feature-based, el formulario, las tarjetas, los componentes compartidos y la lógica base.
 
-## Fase 2 — Funcionalidad central
+### Fase 2 — Funcionalidad central
 
-En progreso.
+Completada. El inventario permite registrar, validar, editar, eliminar, restaurar y clasificar medicamentos.
 
-### Funcionalidades implementadas
+### Fase 3 — Importación
+
+Completada. Se instaló `xlsx` y se implementó la importación de archivos `.csv`, `.xls` y `.xlsx`. El flujo lee el archivo, reconoce encabezados en español e inglés, valida las filas, muestra una vista previa, importa registros válidos y omite duplicados.
+
+Los archivos CSV se leen como texto UTF-8 para reconocer correctamente encabezados con tildes, como `Categoría`.
+
+### Fase 4 — Pulido e interacciones
+
+En validación final. Se aplicaron estilos responsive, moneda costarricense, persistencia local, mejoras de accesibilidad y transiciones CSS no esenciales. Las animaciones respetan `prefers-reduced-motion`.
+
+GSAP y Skiper UI no son necesarios para cumplir el MVP y no deben incorporarse si agregan complejidad o rompen la accesibilidad.
+
+## Funcionalidades implementadas
 
 | Funcionalidad | Estado |
 |---|---|
 | Registrar medicamento | Funciona |
 | Validar nombre, categoría, cantidad y precio | Funciona |
 | Generar ID único | Funciona con `crypto.randomUUID()` |
-| Clasificar stock | Funciona |
-| Mostrar métricas | Implementado |
-| Editar medicamento | Implementado y probado |
-| Eliminar medicamento | Implementado |
-| Mostrar tarjetas | Primera versión publicada |
-| Seleccionar tarjeta | En corrección |
-| Mostrar detalle | En corrección |
-| Confirmación sin alertas nativas | Pendiente de integrar |
-| Deshacer eliminación | Pendiente de integrar |
-
-### Correcciones inmediatas
-
-La rama `sebas` publicó una primera versión de `InventoryCard.jsx`, pero `InventoryPage.jsx` todavía no conecta `onSelect`, `MedicationDetail.jsx` está incompleto y permanece `window.confirm()`.
-
-La siguiente corrección debe:
-
-1. Reemplazar `MedicationDetail.jsx` por un componente completo.
-2. Conectar `selectedMedication` desde `InventoryPage.jsx`.
-3. Reemplazar `window.confirm()` por un diálogo propio.
-4. Agregar una notificación de Deshacer.
-5. Pasar el medicamento completo a la acción de eliminación.
-
-## Fase 3 — Importación
-
-Pendiente.
-
-La función prioritaria para resolver inventarios en papel será importar archivos `.csv`, `.xlsx` o `.xls`, mostrar una vista previa, validar columnas y filas, y permitir importar registros válidos. La dependencia `xlsx` todavía no está instalada.
-
-## Fase 4 — Pulido e interacciones
-
-Pendiente.
-
-Después de estabilizar tarjetas, detalle e importación se aplicarán estilos responsive, accesibilidad, transiciones, Skiper UI y GSAP de forma progresiva.
+| Clasificar stock normal, bajo y agotado | Funciona |
+| Mostrar métricas | Funciona |
+| Mostrar tarjetas de medicamentos | Funciona |
+| Abrir detalle | Funciona con clic, Enter y barra espaciadora |
+| Editar dentro del detalle | Funciona |
+| Evitar medicamentos duplicados | Funciona por nombre y categoría |
+| Mostrar precios en colones costarricenses | Funciona con `Intl.NumberFormat` para `es-CR` |
+| Confirmación sin alertas nativas | Funciona con diálogo propio |
+| Eliminar medicamento | Funciona |
+| Deshacer eliminación | Funciona durante cinco segundos |
+| Importar CSV | Funciona |
+| Importar XLS/XLSX | Funciona |
+| Vista previa de importación | Funciona |
+| Omitir duplicados al importar | Funciona |
+| Persistencia tras recargar | Funciona con `localStorage` |
+| Responsive | Implementado |
+| Transiciones suaves | Implementadas con CSS |
+| Respeto a reducción de movimiento | Implementado |
 
 ## Validaciones realizadas
 
 | Validación | Resultado |
 |---|---|
-| Scaffold React + Vite | Correcto |
-| Estructura feature-based | Correcta |
-| `npm run lint` | Correcto en validaciones anteriores |
-| `npm run build` | Correcto en validaciones anteriores |
-| Registro manual | Funciona |
-| Clasificación de stock | Funciona |
-| Edición | Funciona |
-| Métricas | Implementadas |
-| Tarjetas | Publicadas, requieren corrección de integración |
-| Detalle | Pendiente de corregir |
-| Confirmación y deshacer | Pendientes |
+| `npm run lint` | Correcto, sin errores |
+| `npm run build` | Correcto |
+| Registro manual | Probado |
+| Edición desde el modal | Probado |
+| Bloqueo de duplicados | Probado |
+| Moneda costarricense | Probada |
+| Eliminación con confirmación propia | Probada |
+| Deshacer eliminación | Probado |
+| Importación CSV | Probada con archivo de Costa Rica |
+| Encabezado `Categoría` con tilde | Corregido y probado |
+| Persistencia después de recargar | Probada |
+| Tarjetas con teclado | Implementadas |
+| Transiciones con reducción de movimiento | Implementadas |
+
+## Advertencia conocida
+
+El build puede mostrar una advertencia de bundle superior a 500 kB debido a la dependencia `xlsx`. No es un error: `lint` y `build` terminan correctamente. La optimización del bundle queda fuera del alcance principal del MVP y solo debe realizarse si existe tiempo para una fase posterior.
+
+## Pendientes de cierre
+
+1. Revisar visualmente escritorio y móvil.
+2. Confirmar que la importación muestra filas válidas, duplicados omitidos y precios en colones.
+3. Confirmar que los datos sobreviven a una recarga.
+4. Actualizar la bitácora de prompts con las últimas iteraciones.
+5. Completar la reflexión de la práctica.
+6. Preparar una demostración de aproximadamente dos minutos.
+
+## Guion breve de demostración
+
+```text
+1. Registrar un medicamento manualmente.
+2. Mostrar su tarjeta y el estado del stock.
+3. Abrir el detalle y editar la cantidad desde el modal.
+4. Intentar crear el mismo medicamento para demostrar el bloqueo de duplicados.
+5. Importar un CSV con varias filas.
+6. Mostrar la vista previa y la omisión del duplicado.
+7. Recargar la página para demostrar la persistencia.
+8. Eliminar un medicamento y recuperarlo con Deshacer.
+```
 
 ## Coordinación
 
 Una persona implementa una tarea pequeña y la otra revisa. No se modifican los mismos archivos en paralelo. Cada push debe revisarse antes de hacer pull o continuar con otra fase.
 
-## Próxima aprobación
-
-La próxima fase se aprobará cuando el usuario pueda:
+## Criterios de éxito del MVP
 
 ```text
-Abrir una tarjeta.
-Cerrar el detalle con X, Escape y clic fuera.
-Editar desde el detalle.
-Cancelar una eliminación dentro de la interfaz.
-Eliminar y restaurar con Deshacer.
-Ejecutar npm run lint y npm run build sin errores.
+El encargado puede registrar medicamentos sin usar papel.
+El encargado puede localizar rápidamente productos con stock bajo o agotado.
+El encargado puede cargar una lista existente desde CSV o Excel.
+Los datos no desaparecen al recargar la página.
+La interfaz no depende de alertas o confirmaciones nativas del navegador.
 ```

@@ -6,7 +6,7 @@ Este archivo registra las iteraciones importantes del proyecto y aplica el ciclo
 Describe → Genera → Revisa → Prueba → Refina
 ```
 
-La IA genera propuestas y código, pero el equipo humano define el alcance, copia el código, ejecuta las pruebas, detecta errores y decide si continúa.
+La IA generó propuestas y código, pero el equipo humano definió el alcance, revisó los archivos, ejecutó las pruebas, detectó errores y decidió qué cambios conservar.
 
 ## Iteración 01 — Definición del problema
 
@@ -14,16 +14,15 @@ La IA genera propuestas y código, pero el equipo humano define el alcance, copi
 
 **Decisión humana:** Crear una aplicación que permita registrar medicamentos, consultar cantidades y detectar productos que necesitan reposición.
 
-**Criterios iniciales:** Registrar, clasificar stock y editar/eliminar con mensajes claros.
+**Criterios iniciales:** Registrar medicamentos, clasificar el stock y editar o eliminar con mensajes claros.
 
 **Estado:** Aprobado.
 
 ## Iteración 02 — Estructura inicial
 
-**Responsable:** Sebastian  
-**Rama:** `sebas`
-
 Se creó la estructura feature-based sin alterar el scaffold inicial de Vite.
+
+**Decisión humana:** Mantener una sola página, sin login, backend ni dashboard complejo, porque el MVP debía resolver una única necesidad central.
 
 **Validación:**
 
@@ -34,152 +33,117 @@ npm run build → correcto
 
 **Estado:** Aprobado.
 
-## Iteración 03 — Formulario y página inicial
+## Iteración 03 — Formulario y lógica base
 
-**Responsable:** Luis  
-**Rama:** `Luis`, integrada posteriormente en `sebas`.
+Se creó el formulario de medicamentos y el hook `useInventory.js`.
 
-Se creó el formulario y se conectó con la página inicial del inventario.
+Se implementaron el registro, la validación de nombre, categoría, cantidad y precio, la generación de IDs, la clasificación automática del stock y las métricas.
 
-**Estado:** Integrado.
-
-## Iteración 04 — Lógica base
-
-**Responsable:** Sebastian  
-**Rama:** `sebas`.
-
-Se implementaron:
-
-```text
-useInventory.js
-inventoryUtils.js
-inventoryValidation.js
-```
-
-La lógica permite registrar, validar, generar IDs, clasificar stock, editar y eliminar.
-
-**Estado:** Aprobado para prototipo.
-
-## Iteración 05 — Tabla y edición
-
-**Responsable:** Luis  
-**Rama:** `Luis`, integrada posteriormente en `sebas`.
-
-Se agregaron la tabla, las filas y la edición del medicamento. Se probó registrar, editar, eliminar y clasificar stock.
+**Revisión humana:** Se comprobó que no se introdujeran librerías innecesarias ni llamadas a servicios externos.
 
 **Estado:** Aprobado.
 
-## Iteración 06 — Métricas
+## Iteración 04 — Tarjetas y detalle
 
-**Responsable:** Sebastian  
-**Rama:** `sebas`.
+Se reemplazó la tabla simple por un catálogo de tarjetas con imagen o placeholder, nombre, categoría, cantidad, precio y estado de stock.
 
-Se agregó:
+Al seleccionar una tarjeta se abre un modal con la información completa y acciones de edición y eliminación.
 
-```text
-src/features/inventory/components/InventoryStats.jsx
-```
+**Problemas detectados:** La primera versión tenía integración incompleta, edición en el formulario principal y una semántica poco accesible en la tarjeta.
 
-Las métricas muestran productos registrados, unidades totales, stock bajo y agotados.
+**Refinamiento:** La edición se trasladó al modal de detalle y la tarjeta se separó en un área de apertura y botones independientes.
 
-**Estado:** Publicado y funcional.
+**Estado:** Corregido y aprobado.
 
-## Iteración 07 — Primera versión de tarjetas
+## Iteración 05 — Confirmación propia y Deshacer
 
-**Responsable:** Sebastian  
-**Rama:** `sebas`.
+Se eliminó el uso de `alert()` y `window.confirm()`.
 
-Se creó una primera versión de `InventoryCard.jsx` y se adaptó `InventoryTable.jsx` para mostrar tarjetas.
+Se añadió un diálogo propio de confirmación y una notificación temporal con botón `Deshacer` durante cinco segundos.
 
-**Problemas detectados:**
+**Validación humana:** Se comprobó cancelar, confirmar, deshacer y recargar después de eliminar.
 
-- `InventoryPage.jsx` aún no conectaba `onSelect`.
-- `MedicationDetail.jsx` se publicó incompleto.
-- La eliminación todavía utilizaba `window.confirm()`.
-- No existía Deshacer.
+**Estado:** Aprobado.
 
-**Decisión:** No aprobar todavía. Corregir antes de aplicar estilos.
+## Iteración 06 — Moneda y reglas del negocio
 
-## Iteración 08 — Corrección de tarjetas y detalle
+El proyecto se adaptó a Costa Rica.
 
-**Objetivo:** Reemplazar la publicación parcial por tarjetas seleccionables, detalle funcional, confirmación propia y Deshacer.
+Se reemplazó la moneda mexicana por colones costarricenses mediante `Intl.NumberFormat` con configuración `es-CR` y moneda `CRC`.
 
-**Archivos previstos:**
+También se añadió prevención de medicamentos duplicados usando nombre y categoría como combinación de identificación del producto.
 
-```text
-src/features/inventory/components/InventoryCard.jsx
-src/features/inventory/components/InventoryTable.jsx
-src/features/inventory/components/MedicationDetail.jsx
-src/features/inventory/hooks/useInventory.js
-src/pages/InventoryPage.jsx
-```
+**Estado:** Aprobado.
 
-**Reglas:**
+## Iteración 07 — Importación CSV y Excel
 
-```text
-No usar alert().
-No usar window.confirm().
-No instalar Skiper UI ni GSAP todavía.
-Entregar archivos completos y rutas exactas.
-Ejecutar npm run lint y npm run build.
-```
+**Objetivo:** Sustituir registros manuales en papel mediante carga masiva.
 
-**Estado:** En corrección.
-
-## Iteración 09 — Importación masiva
-
-**Objetivo:** Sustituir inventarios en papel mediante importación CSV/Excel.
-
-**Flujo previsto:**
+**Flujo implementado:**
 
 ```text
 Seleccionar archivo → leer → validar → vista previa → importar registros válidos
 ```
 
-**Columnas mínimas:**
+Se instalaron y utilizaron los formatos `.csv`, `.xls` y `.xlsx` mediante `xlsx`.
 
-```text
-name | category | quantity | unitPrice
-```
+Se reconocen encabezados en español e inglés, incluyendo `Nombre`, `Categoría`, `Cantidad` y `Precio unitario`.
 
-`imageUrl` será opcional. La dependencia `xlsx` se instalará únicamente al comenzar esta iteración.
+**Error detectado:** El encabezado `Categoría` no se reconocía correctamente en ciertos CSV.
 
-**Estado:** Pendiente después de estabilizar tarjetas y detalle.
+**Corrección:** Los CSV se leen como texto UTF-8 y los archivos XLS/XLSX como datos binarios.
 
-## Iteración 10 — Pulido visual
+**Estado:** Aprobado con un archivo de prueba que contiene tres filas válidas y un duplicado.
 
-**Objetivo:** Aplicar estilos modernos y responsive sin modificar la lógica.
+## Iteración 08 — Persistencia local
 
-**Posibles herramientas:**
+Se añadió `localStorage` para que los medicamentos registrados o importados permanezcan después de recargar la página.
 
-```text
-CSS/Tailwind → layout y diseño base
-shadcn/ui → dialog, botones y componentes accesibles
-Skiper UI → componente visual concreto
-GSAP → transiciones no esenciales
-```
+**Decisión humana:** Mantener la persistencia local y no crear backend, login ni base de datos porque el alcance del laboratorio es un MVP de una sola página.
 
-**Estado:** Pendiente.
+**Estado:** Aprobado.
+
+## Iteración 09 — Diseño visual
+
+Se aplicaron estilos modernos y responsive para tarjetas, métricas, formulario, modal, diálogo de eliminación, importador y notificación de Deshacer.
+
+Se conservaron estados visuales diferenciados para stock normal, bajo y agotado.
+
+**Estado:** Aprobado.
+
+## Iteración 10 — Accesibilidad y transiciones
+
+Se corrigió la semántica de la tarjeta para evitar botones anidados dentro de otro elemento interactivo.
+
+Se añadieron transiciones CSS para tarjetas, modal, diálogo y notificación. Las animaciones respetan `prefers-reduced-motion`.
+
+**Decisión humana:** No incorporar GSAP ni Skiper UI si no aportan una mejora clara al MVP.
+
+**Estado:** Aprobado.
 
 ## Iteración 11 — Validación final
 
-Se probará la aplicación como propietario de una farmacia:
+Se validaron los siguientes flujos:
 
 ```text
 Registrar medicamento.
-Abrir tarjeta.
-Editar medicamento.
-Cancelar eliminación.
-Eliminar y deshacer.
-Importar archivo válido.
-Revisar filas inválidas.
+Abrir tarjeta con clic, Enter y barra espaciadora.
+Editar desde el detalle.
+Intentar crear un duplicado.
+Cancelar una eliminación.
+Eliminar y restaurar con Deshacer.
+Importar un CSV.
+Detectar filas inválidas y duplicados.
 Confirmar actualización de métricas.
+Recargar y comprobar persistencia.
 Ejecutar npm run lint.
 Ejecutar npm run build.
 ```
 
-**Estado:** Pendiente.
+**Resultado:** `lint` y `build` pasan sin errores. El build muestra únicamente una advertencia informativa de tamaño del bundle causada por `xlsx`.
 
-## Formato obligatorio para futuras iteraciones
+**Estado:** Aprobado.
 
-Cada prompt debe indicar objetivo, contexto, archivos permitidos, archivos prohibidos, criterios de éxito y formato de entrega. Cada respuesta de código debe incluir ruta exacta, acción y contenido completo listo para copiar y pegar.
+## Aprendizaje principal
+
+La IA aceleró la generación de código, pero el resultado solo fue confiable después de revisar archivos, ejecutar comandos, probar casos reales y corregir errores como el encabezado UTF-8, el `setState` dentro de un efecto y los props sin uso.
