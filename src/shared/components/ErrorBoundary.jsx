@@ -13,7 +13,12 @@ export default class ErrorBoundary extends Component {
         <section className="error-state" role="alert" aria-live="assertive">
           <h1>No se pudo mostrar el inventario</h1>
           <p>Ocurrió un error inesperado. Recarga la vista para continuar.</p>
-          <button type="button" onClick={() => window.location.reload()}>
+          <button
+            type="button"
+            onClick={() => {
+              window.location.assign(window.location.pathname);
+            }}
+          >
             Recargar vista
           </button>
         </section>

@@ -8,6 +8,18 @@ import ConfirmDialog from "../shared/components/ConfirmDialog";
 import ErrorBoundary from "../shared/components/ErrorBoundary";
 
 export default function InventoryPage() {
+  return (
+    <ErrorBoundary>
+      <InventoryPageContent />
+    </ErrorBoundary>
+  );
+}
+
+function InventoryPageContent() {
+  if (import.meta.env.DEV && window.location.search.includes("test-error")) {
+    throw new Error("Error de prueba del inventario");
+  }
+
   const {
     medications,
     metrics,
@@ -63,8 +75,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <ErrorBoundary>
-      <main className="inventory-page">
+    <main className="inventory-page">
         <h1 className="inventory-page__title">Inventario de medicamentos</h1>
 
         <InventoryStats metrics={metrics} />
@@ -107,7 +118,6 @@ export default function InventoryPage() {
           onConfirm={handleConfirmDelete}
           onCancel={() => setMedicationToDelete(null)}
         />
-      </main>
-    </ErrorBoundary>
+    </main>
   );
 }
