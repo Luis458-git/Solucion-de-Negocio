@@ -3,6 +3,7 @@ import { useInventory } from "../features/inventory/hooks/useInventory";
 import InventoryForm from "../features/inventory/components/InventoryForm";
 import InventoryTable from "../features/inventory/components/InventoryTable";
 import InventoryStats from "../features/inventory/components/InventoryStats";
+import MedicationDetail from "../features/inventory/components/MedicationDetail";
 
 export default function InventoryPage() {
   const {
@@ -14,6 +15,7 @@ export default function InventoryPage() {
   } = useInventory();
 
   const [editingMedication, setEditingMedication] = useState(null);
+  const [selectedMedication, setSelectedMedication] = useState(null);
 
   function handleSubmit(formData) {
     if (editingMedication) {
@@ -31,6 +33,7 @@ export default function InventoryPage() {
 
   function handleEdit(medication) {
     setEditingMedication(medication);
+    setSelectedMedication(null);
   }
 
   function handleDelete(id) {
@@ -46,7 +49,16 @@ export default function InventoryPage() {
 
     if (confirmed) {
       deleteMedication(id);
+      setSelectedMedication(null);
     }
+  }
+
+  function handleSelect(medication) {
+    setSelectedMedication(medication);
+  }
+
+  function handleCloseDetail() {
+    setSelectedMedication(null);
   }
 
   function handleCancel() {
@@ -92,10 +104,18 @@ export default function InventoryPage() {
       >
         <InventoryTable
           medications={medications}
+          onSelect={handleSelect}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />
       </section>
+
+      <MedicationDetail
+        medication={selectedMedication}
+        onClose={handleCloseDetail}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </main>
   );
 }

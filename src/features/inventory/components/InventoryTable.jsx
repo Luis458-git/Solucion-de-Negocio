@@ -1,6 +1,6 @@
-import InventoryRow from "./InventoryRow";
+import InventoryCard from "./InventoryCard";
 
-export default function InventoryTable({ medications, onEdit, onDelete }) {
+export default function InventoryTable({ medications, onEdit, onDelete, onSelect }) {
   if (!medications || medications.length === 0) {
     return (
       <div className="inventory-table__empty-state">
@@ -10,29 +10,18 @@ export default function InventoryTable({ medications, onEdit, onDelete }) {
   }
 
   return (
-    <div className="inventory-table__container">
-      <table className="inventory-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {medications.map((medication) => (
-            <InventoryRow
-              key={medication.id}
-              medication={medication}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <section className="inventory-table" aria-label="Productos del inventario">
+      <div className="inventory-table__grid">
+        {medications.map((medication) => (
+          <InventoryCard
+            key={medication.id}
+            medication={medication}
+            onSelect={onSelect}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
