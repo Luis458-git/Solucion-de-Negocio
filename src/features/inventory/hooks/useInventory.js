@@ -8,7 +8,7 @@ import {
 export function useInventory(initialMedications = []) {
   const [medications, setMedications] = useState(initialMedications);
 
-  const addMedication = (medication) => {
+  function addMedication(medication) {
     const validation = validateMedication(medication);
 
     if (!validation.isValid) {
@@ -27,14 +27,10 @@ export function useInventory(initialMedications = []) {
       newMedication,
     ]);
 
-    return {
-      isValid: true,
-      errors: {},
-      medication: newMedication,
-    };
-  };
+    return { isValid: true, errors: {}, medication: newMedication };
+  }
 
-  const updateMedication = (id, updatedMedication) => {
+  function updateMedication(id, updatedMedication) {
     const validation = validateMedication(updatedMedication);
 
     if (!validation.isValid) {
@@ -54,18 +50,26 @@ export function useInventory(initialMedications = []) {
       )
     );
 
-    return {
-      isValid: true,
-      errors: {},
-      medication,
-    };
-  };
+    return { isValid: true, errors: {}, medication };
+  }
 
-  const deleteMedication = (id) => {
+  function deleteMedication(id) {
     setMedications((currentMedications) =>
       currentMedications.filter((medication) => medication.id !== id)
     );
-  };
+  }
+
+  function restoreMedication(medication) {
+    setMedications((currentMedications) => {
+      const alreadyExists = currentMedications.some(
+        (currentMedication) => currentMedication.id === medication.id
+      );
+
+      return alreadyExists
+        ? currentMedications
+        : [...currentMedications, medication];
+    });
+  }
 
   const medicationsWithStockStatus = useMemo(
     () =>
@@ -87,5 +91,6 @@ export function useInventory(initialMedications = []) {
     addMedication,
     updateMedication,
     deleteMedication,
+    restoreMedication,
   };
 }

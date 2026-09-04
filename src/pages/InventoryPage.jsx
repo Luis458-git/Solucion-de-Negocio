@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInventory } from "../features/inventory/hooks/useInventory";
 import InventoryForm from "../features/inventory/components/InventoryForm";
 import InventoryTable from "../features/inventory/components/InventoryTable";
@@ -12,10 +12,22 @@ export default function InventoryPage() {
     addMedication,
     updateMedication,
     deleteMedication,
+    restoreMedication,
   } = useInventory();
 
   const [editingMedication, setEditingMedication] = useState(null);
   const [selectedMedication, setSelectedMedication] = useState(null);
+  const [deleteCandidate, setDeleteCandidate] = useState(null);
+  const [undoMedication, setUndoMedication] = useState(null);
+  const undoTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (undoTimerRef.current) {
+        clearTimeout(undoTimerRef.current);
+      }
+    };
+  }, []);
 
   function handleSubmit(formData) {
     if (editingMedication) {
@@ -31,38 +43,53 @@ export default function InventoryPage() {
     addMedication(formData);
   }
 
+  function handleSelect(medication) {
+    setSelectedMedication(medication);
+  }
+
   function handleEdit(medication) {
     setEditingMedication(medication);
     setSelectedMedication(null);
   }
 
-  function handleDelete(id) {
-    const medication = medications.find((item) => item.id === id);
+  function handleDeleteRequest(medication) {
+    setSelectedMedication(null);
+    setDeleteCandidate(medication);
+  }
 
-    if (!medication) {
+  function handleCancelDelete() {
+    setDeleteCandidate(null);
+  }
+
+  function handleConfirmDelete() {
+    if (!deleteCandidate) {
       return;
     }
 
-    const confirmed = window.confirm(
-      `¿Deseas eliminar el medicamento "${medication.name}"?`
-    );
+    deleteMedication(deleteCandidate.id);
+    setUndoMedication(deleteCandidate);
+    setDeleteCandidate(null);
 
-    if (confirmed) {
-      deleteMedication(id);
-      setSelectedMedication(null);
+    if (undoTimerRef.current) {
+      clearTimeout(undoTimerRef.current);
     }
+
+    undoTimerRef.current = setTimeout(() => {
+      setUndoMedication(null);
+    }, 5000);
   }
 
-  function handleSelect(medication) {
-    setSelectedMedication(medication);
-  }
+  function handleUndo() {
+    if (!undoMedication) {
+      return;
+    }
 
-  function handleCloseDetail() {
-    setSelectedMedication(null);
-  }
+    restoreMedication(undoMedication);
+    setUndoMedication(null);
 
-  function handleCancel() {
-    setEditingMedication(null);
+    if (undoTimerRef.current) {
+      clearTimeout(undoTimerRef.current);
+    }
   }
 
   return (
@@ -79,43 +106,65 @@ export default function InventoryPage() {
 
       <section
         className="inventory-page__form-section"
-        aria-label={
-          editingMedication
-            ? "Editar medicamento"
-            : "Registrar medicamento"
-        }
+        aria-label={editingMedication ? "Editar medicamento" : "Registrar medicamento"}
       >
         <InventoryForm
           initialValues={editingMedication || undefined}
           onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          submitLabel={
-            editingMedication
-              ? "Actualizar medicamento"
-              : "Registrar medicamento"
-          }
+          onCancel={() => setEditingMedication(null)}
+          submitLabel={editingMedication ? "Actualizar medicamento" : "Registrar medicamento"}
           cancelLabel="Cancelar"
         />
       </section>
 
-      <section
-        className="inventory-page__table-section"
-        aria-label="Lista de medicamentos"
-      >
+      <section className="inventory-page__table-section" aria-label="Lista de medicamentos">
         <InventoryTable
           medications={medications}
           onSelect={handleSelect}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onDelete={handleDeleteRequest}
         />
       </section>
 
       <MedicationDetail
         medication={selectedMedication}
-        onClose={handleCloseDetail}
+        onClose={() => setSelectedMedication(null)}
         onEdit={handleEdit}
-        onDelete={handleDelete}
+        onDelete={handleDeleteRequest}
       />
+
+      {deleteCandidate && (
+        <div className="delete-dialog__backdrop" role="presentation">
+          <section
+            className="delete-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-dialog-title"
+          >
+            <h2 id="delete-dialog-title">Eliminar medicamento</h2>
+            <p>
+              ¿Seguro que deseas eliminar “{deleteCandidate.name}”? Podrás deshacerlo durante unos segundos.
+            </p>
+            <div className="delete-dialog__actions">
+              <button type="button" onClick={handleCancelDelete}>
+                Cancelar
+              </button>
+              <button type="button" onClick={handleConfirmDelete}>
+                Eliminar
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {undoMedication && (
+        <div className="undo-notification" role="status" aria-live="polite">
+          <span>“{undoMedication.name}” fue eliminado.</span>
+          <button type="button" onClick={handleUndo}>
+            Deshacer
+          </button>
+        </div>
+      )}
     </main>
   );
 }

@@ -1,28 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export default function MedicationDetail({
-  medication,
-  onClose,
-  onEdit,
-  onDelete,
-}) {
+export default function MedicationDetail({ medication, onClose, onEdit, onDelete }) {
+  const closeButtonRef = useRef(null);
+
   useEffect(() => {
     if (!medication) {
       return undefined;
     }
 
-    const handleKeyDown = (event) => {
+    const previousActiveElement = document.activeElement;
+    closeButtonRef.current?.focus();
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event) {
       if (event.key === "Escape") {
         onClose();
       }
-    };
+    }
 
     document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      previousActiveElement?.focus?.();
     };
   }, [medication, onClose]);
 
@@ -30,16 +31,11 @@ export default function MedicationDetail({
     return null;
   }
 
-  const handleBackdropClick = (event) => {
+  function handleBackdropClick(event) {
     if (event.target === event.currentTarget) {
       onClose();
     }
-  };
-
-  const handleDelete = () => {
-    onDelete(medication.id);
-    onClose();
-  };
+  }
 
   return (
     <div
@@ -54,10 +50,11 @@ export default function MedicationDetail({
         aria-labelledby="medication-detail-title"
       >
         <button
+          ref={closeButtonRef}
           className="medication-detail__close"
           type="button"
           onClick={onClose}
-          aria-label="Cerrar detalles del medicamento"
+          aria-label="Cerrar detalles"
         >
           ×
         </button>
@@ -85,12 +82,10 @@ export default function MedicationDetail({
               <dt>Cantidad disponible</dt>
               <dd>{medication.quantity} unidades</dd>
             </div>
-
             <div>
               <dt>Precio unitario</dt>
               <dd>${Number(medication.unitPrice).toFixed(2)} MXN</dd>
             </div>
-
             <div>
               <dt>Estado del inventario</dt>
               <dd>{medication.stockStatus}</dd>
@@ -101,8 +96,7 @@ export default function MedicationDetail({
             <button type="button" onClick={() => onEdit(medication)}>
               Editar medicamento
             </button>
-
-            <button type="button" onClick={handleDelete}>
+            <button type="button" onClick={() => onDelete(medication)}>
               Eliminar medicamento
             </button>
           </div>
