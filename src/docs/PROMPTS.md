@@ -1,56 +1,29 @@
-# Bitácora de prompts
+# PROMPTS — Bitácora de Vibe Coding
 
-Este archivo registra las iteraciones importantes del proyecto y demuestra la aplicación del ciclo:
+Este archivo registra las iteraciones importantes del proyecto y aplica el ciclo:
 
 ```text
 Describe → Genera → Revisa → Prueba → Refina
 ```
 
-La IA genera propuestas y código, pero el equipo humano decide el alcance, revisa el resultado, ejecuta las pruebas y corrige los problemas.
+La IA genera propuestas y código, pero el equipo humano define el alcance, copia el código, ejecuta las pruebas, detecta errores y decide si continúa.
 
-## Fase 0 — Intención
+## Iteración 01 — Definición del problema
 
-### Iteración 01 — Definición del problema
+**Objetivo:** Resolver el problema de inventarios manuales en una farmacia pequeña.
 
-**Objetivo:** Identificar un problema real de un pequeño negocio y definir un MVP demostrable.
+**Decisión humana:** Crear una aplicación que permita registrar medicamentos, consultar cantidades y detectar productos que necesitan reposición.
 
-**Decisión humana:** Se eligió ayudar al encargado de una farmacia pequeña a registrar medicamentos y detectar rápidamente cuáles necesitan reposición.
-
-**Función central:** Registrar y consultar el inventario, mostrando automáticamente si el stock es normal, bajo o agotado.
-
-**Criterios de éxito:**
-
-```text
-1. Un medicamento válido aparece en el inventario.
-2. El stock se clasifica correctamente.
-3. El usuario puede editar o eliminar y recibe mensajes claros ante errores.
-```
+**Criterios iniciales:** Registrar, clasificar stock y editar/eliminar con mensajes claros.
 
 **Estado:** Aprobado.
 
-## Fase 1 — Prototipo
+## Iteración 02 — Estructura inicial
 
-### Iteración 02 — Estructura inicial
+**Responsable:** Sebastian  
+**Rama:** `sebas`
 
-**Integrante:** Sebastian  
-**Rama:** `sebas`  
-**Objetivo:** Crear la estructura feature-based sin alterar el scaffold inicial de Vite.
-
-**Archivos y carpetas principales:**
-
-```text
-src/app/
-src/features/inventory/components/
-src/features/inventory/hooks/
-src/features/inventory/utils/
-src/pages/
-src/shared/components/
-src/shared/hooks/
-src/shared/lib/
-src/styles/
-```
-
-**Revisión:** Luis confirmó que la estructura coincide con la arquitectura documentada.
+Se creó la estructura feature-based sin alterar el scaffold inicial de Vite.
 
 **Validación:**
 
@@ -61,131 +34,152 @@ npm run build → correcto
 
 **Estado:** Aprobado.
 
-### Iteración 03 — Formulario y página inicial
+## Iteración 03 — Formulario y página inicial
 
-**Integrante:** Luis  
-**Rama:** `Luis`, posteriormente integrada en `sebas`  
-**Objetivo:** Crear el formulario inicial y conectarlo con la página del inventario.
+**Responsable:** Luis  
+**Rama:** `Luis`, integrada posteriormente en `sebas`.
 
-**Archivos afectados:**
+Se creó el formulario y se conectó con la página inicial del inventario.
 
-```text
-src/features/inventory/components/InventoryForm.jsx
-src/pages/InventoryPage.jsx
-```
+**Estado:** Integrado.
 
-**Revisión:** El formulario permite introducir los datos básicos y la página utiliza la lógica del inventario.
+## Iteración 04 — Lógica base
 
-**Estado:** Integrado como prototipo.
+**Responsable:** Sebastian  
+**Rama:** `sebas`.
 
-## Fase 2 — Funcionalidad central
-
-### Iteración 04 — Lógica base del inventario
-
-**Integrante:** Sebastian  
-**Rama:** `sebas`  
-**Objetivo:** Crear validaciones, clasificación de stock, métricas derivadas y operaciones de inventario.
-
-**Archivos afectados:**
+Se implementaron:
 
 ```text
-src/features/inventory/hooks/useInventory.js
-src/features/inventory/utils/inventoryUtils.js
-src/features/inventory/utils/inventoryValidation.js
+useInventory.js
+inventoryUtils.js
+inventoryValidation.js
 ```
 
-**Resultado:** Se implementaron el registro, la validación, la generación de ID único, la clasificación del stock y la eliminación básica.
-
-**Revisión:** Se comprobó que el estado se mantiene en una sola instancia del hook y que el stock se calcula a partir de la cantidad.
+La lógica permite registrar, validar, generar IDs, clasificar stock, editar y eliminar.
 
 **Estado:** Aprobado para prototipo.
 
-### Iteración 05 — Tabla y fila de inventario
+## Iteración 05 — Tabla y edición
 
-**Integrante:** Luis  
-**Rama:** `Luis`, posteriormente integrada en `sebas`  
-**Objetivo:** Mostrar los medicamentos registrados y permitir la acción de eliminar.
+**Responsable:** Luis  
+**Rama:** `Luis`, integrada posteriormente en `sebas`.
 
-**Archivos afectados:**
+Se agregaron la tabla, las filas y la edición del medicamento. Se probó registrar, editar, eliminar y clasificar stock.
+
+**Estado:** Aprobado.
+
+## Iteración 06 — Métricas
+
+**Responsable:** Sebastian  
+**Rama:** `sebas`.
+
+Se agregó:
 
 ```text
-src/features/inventory/components/InventoryRow.jsx
+src/features/inventory/components/InventoryStats.jsx
+```
+
+Las métricas muestran productos registrados, unidades totales, stock bajo y agotados.
+
+**Estado:** Publicado y funcional.
+
+## Iteración 07 — Primera versión de tarjetas
+
+**Responsable:** Sebastian  
+**Rama:** `sebas`.
+
+Se creó una primera versión de `InventoryCard.jsx` y se adaptó `InventoryTable.jsx` para mostrar tarjetas.
+
+**Problemas detectados:**
+
+- `InventoryPage.jsx` aún no conectaba `onSelect`.
+- `MedicationDetail.jsx` se publicó incompleto.
+- La eliminación todavía utilizaba `window.confirm()`.
+- No existía Deshacer.
+
+**Decisión:** No aprobar todavía. Corregir antes de aplicar estilos.
+
+## Iteración 08 — Corrección de tarjetas y detalle
+
+**Objetivo:** Reemplazar la publicación parcial por tarjetas seleccionables, detalle funcional, confirmación propia y Deshacer.
+
+**Archivos previstos:**
+
+```text
+src/features/inventory/components/InventoryCard.jsx
 src/features/inventory/components/InventoryTable.jsx
-src/pages/InventoryPage.jsx
+src/features/inventory/components/MedicationDetail.jsx
 src/features/inventory/hooks/useInventory.js
+src/pages/InventoryPage.jsx
 ```
 
-**Resultado:** El medicamento registrado aparece en una tabla, se muestra su estado y se puede eliminar. La edición todavía muestra una acción pendiente de completar y la eliminación aún no tiene confirmación.
-
-**Prueba manual:**
+**Reglas:**
 
 ```text
-Registro válido → funciona.
-Medicamento con cantidad 0 → aparece como agotado.
-Visualización en tabla → funciona.
-Eliminación → funciona de forma básica.
+No usar alert().
+No usar window.confirm().
+No instalar Skiper UI ni GSAP todavía.
+Entregar archivos completos y rutas exactas.
+Ejecutar npm run lint y npm run build.
 ```
 
-**Validación:**
+**Estado:** En corrección.
+
+## Iteración 09 — Importación masiva
+
+**Objetivo:** Sustituir inventarios en papel mediante importación CSV/Excel.
+
+**Flujo previsto:**
 
 ```text
-npm run lint → correcto después de la integración.
-npm run build → correcto después de la integración.
+Seleccionar archivo → leer → validar → vista previa → importar registros válidos
 ```
 
-**Estado:** Prototipo funcional básico; requiere refinamiento.
-
-## Siguiente iteración
-
-### Iteración 06 — Edición de medicamentos
-
-**Fecha:** 2026-09-03
-**Integrante:** Luis
-**Rama:** `sebas`
-**Fase:** Fase 2 — Funcionalidad central
-**Objetivo:** Permitir seleccionar un medicamento, cargar sus datos en el formulario, guardar los cambios y actualizar la fila correcta.
-
-**Prompt utilizado:**
-(El usuario proporcionó instrucciones detalladas para implementar únicamente la edición, respetando la única instancia del hook y conservando el ID original, sin añadir características opcionales.)
-
-**Archivos afectados:**
-`src/pages/InventoryPage.jsx`
-`src/docs/PROGRESS.md`
-
-**Resultado generado:** Se implementó el estado `editingMedication` en `InventoryPage.jsx`. Se conectaron `handleEdit` y `handleCancel` al formulario, y se modificó `handleSubmit` para alternar entre `addMedication` y `updateMedication`.
-**Revisión humana:** Se verificó que `InventoryForm.jsx` ya soportaba la actualización de datos mediante el patrón de estado derivado, y que `useInventory.js` mantenía correctamente el identificador original.
-**Problemas encontrados:** Ninguno grave. Se ajustó el código para mantener la arquitectura sin modificar los componentes base.
-**Correcciones aplicadas:** Solo orquestación en la página principal.
-**Pruebas ejecutadas:** `npm run lint` y `npm run build`. Resultado exitoso.
-**Decisión:** Aprobado.
-
-### Iteración 07 — [Siguiente tarea]
-
-## Plantilla para nuevas iteraciones
-
-### Iteración [número] — [Nombre]
-
-**Fecha:** [AAAA-MM-DD]  
-**Integrante:** [Nombre]  
-**Rama:** [Rama]  
-**Fase:** [Fase]  
-**Objetivo:** [Qué se quiere lograr.]  
-
-**Prompt utilizado:**
+**Columnas mínimas:**
 
 ```text
-[Prompt completo]
+name | category | quantity | unitPrice
 ```
 
-**Archivos afectados:**
+`imageUrl` será opcional. La dependencia `xlsx` se instalará únicamente al comenzar esta iteración.
+
+**Estado:** Pendiente después de estabilizar tarjetas y detalle.
+
+## Iteración 10 — Pulido visual
+
+**Objetivo:** Aplicar estilos modernos y responsive sin modificar la lógica.
+
+**Posibles herramientas:**
 
 ```text
-[Rutas exactas]
+CSS/Tailwind → layout y diseño base
+shadcn/ui → dialog, botones y componentes accesibles
+Skiper UI → componente visual concreto
+GSAP → transiciones no esenciales
 ```
 
-**Resultado generado:** [Resumen.]  
-**Revisión humana:** [Qué se comprobó.]  
-**Problemas encontrados:** [Detalles.]  
-**Correcciones aplicadas:** [Detalles.]  
-**Pruebas ejecutadas:** [Comandos y resultado.]  
-**Decisión:** Aprobado / Requiere cambios.
+**Estado:** Pendiente.
+
+## Iteración 11 — Validación final
+
+Se probará la aplicación como propietario de una farmacia:
+
+```text
+Registrar medicamento.
+Abrir tarjeta.
+Editar medicamento.
+Cancelar eliminación.
+Eliminar y deshacer.
+Importar archivo válido.
+Revisar filas inválidas.
+Confirmar actualización de métricas.
+Ejecutar npm run lint.
+Ejecutar npm run build.
+```
+
+**Estado:** Pendiente.
+
+## Formato obligatorio para futuras iteraciones
+
+Cada prompt debe indicar objetivo, contexto, archivos permitidos, archivos prohibidos, criterios de éxito y formato de entrega. Cada respuesta de código debe incluir ruta exacta, acción y contenido completo listo para copiar y pegar.

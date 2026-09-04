@@ -1,112 +1,83 @@
-# Progreso del proyecto
+# PROGRESS — Sistema de Inventario Farmacéutico
 
 ## Estado actual
 
-**Fase de la práctica:** Fase 2 — Funcionalidad central.
-
-**Estado:** Prototipo básico funcional. El sistema permite registrar medicamentos, mostrarlos en una tabla, clasificar su stock y eliminarlos. La edición, la confirmación de eliminación, las métricas y el pulido visual siguen pendientes.
+**Fase de la práctica:** Fase 2 — Funcionalidad central, avanzando hacia Fase 3 — Importación y Fase 4 — Pulido.
 
 **Rama de desarrollo:** `sebas`.
 
-**Rama `main`:** No se utilizará durante el desarrollo. Solo se revisará al terminar y validar el proyecto completo.
+**Rama `main`:** No se utilizará durante el desarrollo. Solo se revisará al finalizar y validar el proyecto completo.
 
-**Última actualización:** 2026-09-03.
+**Estado:** Alpha funcional con métricas y una primera versión de tarjetas. La publicación actual de tarjetas y detalle requiere corrección antes de considerarse aprobada.
 
 ## Fuente de verdad
 
-Los documentos del proyecto se encuentran en `src/docs/`. La jerarquía es:
+Los documentos se encuentran en `src/docs/`. La jerarquía es:
 
 ```text
 PLANIFICACIÓN → ARQUITECTURA → DESARROLLO → DISEÑO → INTERACCIONES → VALIDACIÓN
 ```
 
-La metodología de cada iteración es:
+La metodología es:
 
 ```text
 Describe → Genera → Revisa → Prueba → Refina
 ```
 
-## Fase 0 — Intención
+## Fases completadas
 
-**Estado:** Completada.
+### Fase 0 — Intención
 
-El usuario objetivo es el encargado de una farmacia pequeña. El problema central es identificar rápidamente qué medicamentos están disponibles y cuáles necesitan reposición.
+Completada. El usuario es el encargado de una farmacia pequeña y el problema es sustituir inventarios manuales por una consulta visual y rápida.
 
-La función central del MVP es registrar y consultar el inventario, mostrando automáticamente si cada medicamento está normal, bajo o agotado.
+### Fase 1 — Prototipo
 
-Los criterios de éxito son:
-
-| ID | Criterio |
-|---|---|
-| CE-01 | Registrar un medicamento válido y verlo en el inventario. |
-| CE-02 | Clasificar correctamente el stock normal, bajo y agotado. |
-| CE-03 | Editar o eliminar un medicamento y recibir mensajes claros ante datos inválidos. |
-
-## Fase 1 — Prototipo
-
-**Estado:** Completada.
-
-El scaffold original de React + Vite se encuentra funcionando. Se creó la estructura feature-based y se conservaron los archivos iniciales de Vite.
-
-La interfaz inicial contiene un formulario y una página de inventario básica.
+Completada. El scaffold React + Vite, la estructura feature-based, el formulario, la tabla inicial y la lógica base fueron creados y validados.
 
 ## Fase 2 — Funcionalidad central
 
-**Estado:** En progreso.
+En progreso.
 
-### Ya implementado
+### Funcionalidades implementadas
 
 | Funcionalidad | Estado |
 |---|---|
 | Registrar medicamento | Funciona |
-| Validar datos básicos | Funciona |
-| Generar ID único | Funciona mediante `crypto.randomUUID()` |
-| Mostrar registros en tabla | Funciona |
+| Validar nombre, categoría, cantidad y precio | Funciona |
+| Generar ID único | Funciona con `crypto.randomUUID()` |
 | Clasificar stock | Funciona |
-| Mostrar estado vacío | Funciona |
-| Eliminar registro | Funciona sin confirmación todavía |
+| Mostrar métricas | Implementado |
+| Editar medicamento | Implementado y probado |
+| Eliminar medicamento | Implementado |
+| Mostrar tarjetas | Primera versión publicada |
+| Seleccionar tarjeta | En corrección |
+| Mostrar detalle | En corrección |
+| Confirmación sin alertas nativas | Pendiente de integrar |
+| Deshacer eliminación | Pendiente de integrar |
 
-### Archivos principales
+### Correcciones inmediatas
 
-```text
-src/features/inventory/hooks/useInventory.js
-src/features/inventory/utils/inventoryUtils.js
-src/features/inventory/utils/inventoryValidation.js
-src/features/inventory/components/InventoryForm.jsx
-src/features/inventory/components/InventoryRow.jsx
-src/features/inventory/components/InventoryTable.jsx
-src/pages/InventoryPage.jsx
-```
+La rama `sebas` publicó una primera versión de `InventoryCard.jsx`, pero `InventoryPage.jsx` todavía no conecta `onSelect`, `MedicationDetail.jsx` está incompleto y permanece `window.confirm()`.
 
-### Pendiente en esta fase
+La siguiente corrección debe:
 
-| Funcionalidad | Estado |
-|---|---|
-| Editar un medicamento desde la interfaz | Funciona |
-| Confirmar antes de eliminar | Pendiente |
-| Mostrar una métrica útil | Pendiente |
-| Conectar la página con `App.jsx` si todavía no está conectada | Pendiente de comprobar |
-| Probar casos de error y edición | Pendiente |
+1. Reemplazar `MedicationDetail.jsx` por un componente completo.
+2. Conectar `selectedMedication` desde `InventoryPage.jsx`.
+3. Reemplazar `window.confirm()` por un diálogo propio.
+4. Agregar una notificación de Deshacer.
+5. Pasar el medicamento completo a la acción de eliminación.
 
-La próxima tarea debe ser una sola mejora funcional: implementar la edición de un medicamento sin agregar estilos avanzados ni animaciones.
+## Fase 3 — Importación
 
-## Fase 3 — Pulido
+Pendiente.
 
-**Estado:** Pendiente.
+La función prioritaria para resolver inventarios en papel será importar archivos `.csv`, `.xlsx` o `.xls`, mostrar una vista previa, validar columnas y filas, y permitir importar registros válidos. La dependencia `xlsx` todavía no está instalada.
 
-Después de completar y probar la funcionalidad central se mejorarán coherencia visual, mensajes, responsive, accesibilidad y una métrica útil para el negocio.
+## Fase 4 — Pulido e interacciones
 
-## Fase 4 — Interacciones opcionales
+Pendiente.
 
-**Estado:** Pendiente.
-
-Skiper UI y GSAP solo se incorporarán si el MVP ya cumple los criterios de éxito. No son necesarios para aprobar la funcionalidad central. Cualquier animación debe respetar `prefers-reduced-motion` y no puede ser el único medio para comunicar un estado.
-
-## Fase 5 — Validación final
-
-**Estado:** Pendiente.
-
-Se probará la aplicación como si se fuera el dueño del negocio: registro válido, datos inválidos, stock normal, bajo y agotado, edición, eliminación, estado vacío y mensajes claros. También se ejecutarán `npm run lint` y `npm run build`.
+Después de estabilizar tarjetas, detalle e importación se aplicarán estilos responsive, accesibilidad, transiciones, Skiper UI y GSAP de forma progresiva.
 
 ## Validaciones realizadas
 
@@ -114,26 +85,29 @@ Se probará la aplicación como si se fuera el dueño del negocio: registro vál
 |---|---|
 | Scaffold React + Vite | Correcto |
 | Estructura feature-based | Correcta |
-| `npm run lint` inicial | Correcto |
-| `npm run build` inicial | Correcto |
-| Registro básico | Funciona |
-| Visualización en tabla | Funciona |
+| `npm run lint` | Correcto en validaciones anteriores |
+| `npm run build` | Correcto en validaciones anteriores |
+| Registro manual | Funciona |
 | Clasificación de stock | Funciona |
 | Edición | Funciona |
-| Revisión posterior de lint/build | Debe ejecutarse después del último pull |
+| Métricas | Implementadas |
+| Tarjetas | Publicadas, requieren corrección de integración |
+| Detalle | Pendiente de corregir |
+| Confirmación y deshacer | Pendientes |
 
-## Coordinación del equipo
+## Coordinación
 
-Ambos integrantes trabajan sobre la rama de desarrollo sincronizada. Una persona implementa una tarea pequeña y la otra revisa el resultado. No se deben hacer implementaciones paralelas de los mismos archivos.
+Una persona implementa una tarea pequeña y la otra revisa. No se modifican los mismos archivos en paralelo. Cada push debe revisarse antes de hacer pull o continuar con otra fase.
 
-Cada iteración debe indicar qué generó la IA, qué revisó el equipo, qué pruebas se ejecutaron y si la fase fue aprobada. El trabajo no se considera terminado solo porque compile.
+## Próxima aprobación
 
-## Registro de cambios
+La próxima fase se aprobará cuando el usuario pueda:
 
-| Fecha | Integrante | Rama | Cambio | Validación | Estado |
-|---|---|---|---|---|---|
-| 2026-09-03 | Equipo | `main` | Documentación inicial y scaffold. | Lint y build correctos. | Base creada |
-| 2026-09-03 | Usuario | `sebas` | Estructura de carpetas. | Revisión del compañero, lint y build. | Aprobado |
-| 2026-09-03 | Usuario | `sebas` | Lógica base del inventario. | Registro y validaciones básicas. | Aprobado para continuar |
-| 2026-09-03 | Luis | `Luis` → `sebas` | Formulario, tabla, fila y conexión inicial. | Pull integrado; lint y build correctos. | En progreso |
-| 2026-09-03 | Luis | `sebas` | Implementación de edición de medicamentos. | Lint, build y prueba manual. | Aprobado |
+```text
+Abrir una tarjeta.
+Cerrar el detalle con X, Escape y clic fuera.
+Editar desde el detalle.
+Cancelar una eliminación dentro de la interfaz.
+Eliminar y restaurar con Deshacer.
+Ejecutar npm run lint y npm run build sin errores.
+```

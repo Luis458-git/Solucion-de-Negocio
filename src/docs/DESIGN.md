@@ -1,47 +1,113 @@
-# Diseño del sistema
+# DESIGN — Sistema de Inventario Farmacéutico
 
 ## Propósito visual
 
-La interfaz debe comunicar rápidamente qué medicamentos existen y cuáles necesitan reposición. El diseño debe ser claro, legible y demostrable en una sesión. La apariencia moderna se logrará mediante jerarquía, espacio, tipografía, contraste y mensajes útiles antes de añadir efectos.
+La interfaz debe sentirse como una herramienta moderna de trabajo para un encargado de farmacia. El inventario debe ser fácil de escanear, entender y actualizar sin parecer un sistema empresarial complejo.
 
-## Usuario
-
-El usuario principal es el encargado de una farmacia pequeña. La pantalla debe permitir registrar un medicamento, consultar la lista y reconocer el estado del stock sin instrucciones complejas.
-
-## Prototipo antes del pulido
-
-La primera versión visual puede utilizar clases CSS sencillas. No se deben introducir Tailwind, shadcn/ui, Skiper UI o GSAP si todavía no está completo el flujo funcional de alta, consulta, edición y eliminación.
+La pantalla principal será un catálogo visual de medicamentos, no una tabla administrativa como presentación principal.
 
 ## Composición principal
 
-La página debe organizarse en un encabezado, un formulario de registro, una lista o tabla de medicamentos y estados contextuales. Las métricas pueden añadirse después como un dato útil para el negocio, siempre que no distraigan del flujo principal.
+La página tendrá esta jerarquía:
 
-## Componentes y estados
+```text
+Encabezado → métricas → acciones principales → tarjetas → detalle seleccionado
+```
 
-| Elemento | Responsabilidad |
+El encabezado mostrará el propósito de la página y las acciones disponibles. Las métricas resumirán productos, unidades, stock bajo y agotados. Las tarjetas ocuparán el espacio principal.
+
+## Tarjeta de medicamento
+
+Cada tarjeta debe incluir:
+
+| Elemento | Función |
 |---|---|
-| `InventoryForm` | Capturar datos y mostrar validaciones. |
-| `InventoryTable` | Mostrar los medicamentos. |
-| `InventoryRow` | Mostrar un medicamento y sus acciones. |
-| `StockAlert` | Comunicar stock bajo o agotado. |
-| `InventoryStats` | Mostrar una métrica útil calculada. |
-| `EmptyState` | Explicar qué hacer cuando no hay registros. |
-| `ConfirmDialog` | Confirmar acciones destructivas si se incorpora. |
+| Imagen cuadrada o placeholder | Dar identificación visual al producto. |
+| Categoría | Contextualizar el medicamento. |
+| Nombre | Identificar el producto. |
+| Cantidad | Mostrar unidades disponibles. |
+| Precio | Mostrar el precio unitario. |
+| Estado | Comunicar Normal, Bajo o Agotado. |
+| Acciones | Permitir editar y solicitar eliminación. |
 
-Se deben contemplar los estados normal, vacío, validación, stock bajo, agotado y error. Los estados importantes deben comunicarse con texto e iconos; el color y la animación solo pueden reforzar el mensaje.
+La tarjeta completa será seleccionable. Los botones internos no deben abrir el detalle por accidente; deben detener la propagación del clic.
 
-## Responsive y accesibilidad
+## Detalle seleccionado
 
-La interfaz debe funcionar en pantallas pequeñas y grandes. Los controles deben tener labels o nombres accesibles, foco visible y navegación por teclado. Los mensajes de error deben aparecer cerca del campo correspondiente. Una tabla móvil puede usar desplazamiento horizontal controlado o una presentación alternativa, pero no debe ocultar las acciones.
+Al hacer clic en una tarjeta debe abrirse una tarjeta de detalle tipo modal o panel superpuesto. Debe incluir imagen, nombre, categoría, cantidad, precio, estado, editar, eliminar y cerrar.
+
+El detalle debe poder cerrarse mediante el botón X, la tecla Escape y un clic fuera del contenido. Al abrirlo, el foco y el desplazamiento deben manejarse de forma razonable. El detalle no debe depender de alertas del navegador.
+
+## Eliminación y deshacer
+
+La eliminación utilizará una confirmación propia dentro de la interfaz:
+
+```text
+¿Seguro que deseas eliminar este medicamento?
+[Cancelar] [Eliminar]
+```
+
+Después de confirmar, se mostrará una notificación temporal:
+
+```text
+Medicamento eliminado. [Deshacer]
+```
+
+`alert()` y `window.confirm()` están prohibidos. La acción Deshacer restaurará el registro eliminado mientras la notificación esté disponible.
+
+## Importación
+
+La importación de CSV o Excel se presentará como una acción principal secundaria. El flujo será:
+
+```text
+Seleccionar archivo → leer → validar columnas → vista previa → importar
+```
+
+No se deben importar filas silenciosamente. El usuario debe saber cuántas filas son válidas y cuáles tienen errores.
+
+## Estados de interfaz
+
+| Estado | Requisito visual |
+|---|---|
+| Vacío | Explicar que todavía no hay medicamentos y ofrecer registrar o importar. |
+| Normal | Estado verde sobrio con texto. |
+| Stock bajo | Estado ámbar con texto de reposición. |
+| Agotado | Estado rojo con texto claro y prioridad visual. |
+| Error | Mensaje junto al campo o acción que falló. |
+| Confirmación | Diálogo propio con Cancelar y acción destructiva. |
+| Deshacer | Notificación temporal con botón Deshacer. |
+| Importación | Vista previa con filas válidas y errores visibles. |
+
+El color nunca será el único medio de comunicación. Los estados importantes utilizarán texto y, si se incorporan, iconos.
+
+## Responsive
+
+En escritorio se utilizará una cuadrícula de tarjetas. En móvil las tarjetas ocuparán el ancho disponible y el detalle podrá comportarse como un panel inferior o modal adaptado. No se debe exigir desplazamiento horizontal para consultar la información principal.
 
 ## Pulido visual
 
-La fase de pulido se realizará después de cumplir los criterios centrales del PRD. En esa fase se podrá definir una paleta neutra con colores semánticos para el stock, una tipografía legible, espaciado consistente y estados hover, focus, disabled y error.
+Primero se validará la funcionalidad con clases simples. Después se aplicarán fondo neutro, tarjetas elevadas, bordes redondeados, tipografía legible, espacios consistentes y colores semánticos.
+
+La paleta sugerida es marfil o gris cálido como fondo, superficies claras, verde azulado como color principal, ámbar para stock bajo y rojo controlado para agotados.
+
+## Animaciones
+
+Las animaciones serán cortas y funcionales:
+
+| Momento | Animación |
+|---|---|
+| Entrada de tarjetas | Opacidad y desplazamiento vertical leve. |
+| Hover | Elevación y cambio de sombra moderado. |
+| Apertura del detalle | Opacidad del fondo y escala suave del panel. |
+| Eliminación | Salida breve de la tarjeta y aparición de Deshacer. |
+| Actualización de métricas | Cambio visual sutil sin distraer. |
+
+GSAP se incorporará únicamente después de validar la estructura. Las animaciones deben respetar `prefers-reduced-motion`.
 
 ## Skiper UI
 
-Skiper UI es opcional. Solo se incorporará un componente gratuito si mejora una necesidad concreta, como una tarjeta de resumen o un estado vacío. Antes de integrarlo se revisarán sus dependencias, su compatibilidad con JSX y la atribución requerida.
+Skiper UI es opcional. Se podrá utilizar para una tarjeta, panel o interacción visual concreta si es compatible con JSX y no obliga a reestructurar el proyecto. No se debe incorporar un componente solo por decoración.
 
-## GSAP
+## Accesibilidad
 
-GSAP es opcional y se utilizará después de validar la interfaz. Podrá animar entradas breves de métricas, alertas o elementos importantes. No debe animar la lógica ni ser necesario para comprender el inventario. Se debe utilizar `useGSAP()`, limpiar las animaciones y respetar `prefers-reduced-motion`.
+Las tarjetas seleccionables deben poder activarse con Enter y Espacio. Los botones deben tener nombres claros. El detalle debe tener `role="dialog"`, `aria-modal="true"` y un título identificable. Los errores deben ser comprensibles sin depender del color.
