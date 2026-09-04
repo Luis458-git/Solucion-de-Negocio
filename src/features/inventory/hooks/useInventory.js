@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { validateMedication } from "../utils/inventoryValidation";
 import {
   calculateInventoryMetrics,
   getStockStatus,
 } from "../utils/inventoryUtils";
+
+const STORAGE_KEY = "dr-simi-inventory-medications";
 
 function normalizeText(value) {
   return String(value ?? "")
@@ -36,8 +38,37 @@ function normalizeMedication(medication, id = crypto.randomUUID()) {
   };
 }
 
+function readStoredMedications(initialMedications) {
+  if (initialMedications.length > 0) {
+    return initialMedications;
+  }
+
+  try {
+    const storedValue = localStorage.getItem(STORAGE_KEY);
+
+    if (!storedValue) {
+      return [];
+    }
+
+    const parsedValue = JSON.parse(storedValue);
+    return Array.isArray(parsedValue) ? parsedValue : [];
+  } catch {
+    return [];
+  }
+}
+
 export function useInventory(initialMedications = []) {
-  const [medications, setMedications] = useState(initialMedications);
+  const [medications, setMedications] = useState(() =>
+    readStoredMedications(initialMedications)
+  );
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(medications));
+    } catch {
+      // La aplicación sigue funcionando aunque el navegador no permita guardar datos.
+    }
+  }, [medications]);
 
   function addMedication(medication) {
     const validation = validateMedication(medication);
