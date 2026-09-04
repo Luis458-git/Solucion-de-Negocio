@@ -74,7 +74,7 @@ export default function InventoryForm({
     });
   };
 
-  const handleSubmit = (event) => {
+    const handleSubmit = (event) => {
     event.preventDefault();
 
     const validationErrors = validate ? validate(formData) : {};
@@ -84,7 +84,11 @@ export default function InventoryForm({
       return;
     }
 
-    onSubmit(formData);
+    const result = onSubmit(formData);
+
+    if (result && result.isValid === false) {
+      setErrors(result.errors || {});
+    }
   };
 
   const handleCancel = () => {

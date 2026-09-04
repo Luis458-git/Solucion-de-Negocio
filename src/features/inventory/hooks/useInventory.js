@@ -5,6 +5,26 @@ import {
   getStockStatus,
 } from "../utils/inventoryUtils";
 
+function normalizeText(value) {
+  return String(value ?? "")
+    .trim()
+    .toLocaleLowerCase("es-CR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function isDuplicateMedication(medication, medications, ignoredId = null) {
+  const medicationName = normalizeText(medication.name);
+  const medicationCategory = normalizeText(medication.category);
+
+  return medications.some(
+    (currentMedication) =>
+      currentMedication.id !== ignoredId &&
+      normalizeText(currentMedication.name) === medicationName &&
+      normalizeText(currentMedication.category) === medicationCategory
+  );
+}
+
 export function useInventory(initialMedications = []) {
   const [medications, setMedications] = useState(initialMedications);
 
@@ -15,9 +35,20 @@ export function useInventory(initialMedications = []) {
       return validation;
     }
 
+    if (isDuplicateMedication(medication, medications)) {
+      return {
+        isValid: false,
+        errors: {
+          name: "Este medicamento ya existe con la misma categoría.",
+        },
+      };
+    }
+
     const newMedication = {
       id: crypto.randomUUID(),
       ...medication,
+      name: medication.name.trim(),
+      category: medication.category.trim(),
       quantity: Number(medication.quantity),
       unitPrice: Number(medication.unitPrice),
     };
@@ -37,9 +68,20 @@ export function useInventory(initialMedications = []) {
       return validation;
     }
 
+    if (isDuplicateMedication(updatedMedication, medications, id)) {
+      return {
+        isValid: false,
+        errors: {
+          name: "Este medicamento ya existe con la misma categoría.",
+        },
+      };
+    }
+
     const medication = {
       ...updatedMedication,
       id,
+      name: updatedMedication.name.trim(),
+      category: updatedMedication.category.trim(),
       quantity: Number(updatedMedication.quantity),
       unitPrice: Number(updatedMedication.unitPrice),
     };

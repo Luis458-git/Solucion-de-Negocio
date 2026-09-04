@@ -1,3 +1,5 @@
+import { formatCurrency } from "../utils/currency";
+
 export default function InventoryCard({ medication, onSelect, onEdit, onDelete }) {
   const statusClassName = medication.stockStatus
     .toLowerCase()
@@ -40,7 +42,7 @@ export default function InventoryCard({ medication, onSelect, onEdit, onDelete }
         <h3 className="inventory-card__name">{medication.name}</h3>
         <div className="inventory-card__summary">
           <span>{medication.quantity} unidades</span>
-          <span>${Number(medication.unitPrice).toFixed(2)} MXN</span>
+          <span>{formatCurrency(medication.unitPrice)}</span>
         </div>
         <span className={`inventory-card__status inventory-card__status--${statusClassName}`}>
           {medication.stockStatus}
@@ -51,8 +53,8 @@ export default function InventoryCard({ medication, onSelect, onEdit, onDelete }
         className="inventory-card__actions"
         onClick={(event) => event.stopPropagation()}
       >
-        <button type="button" onClick={() => onEdit(medication)}>
-          Editar
+        <button type="button" onClick={() => onSelect(medication)}>
+          Ver detalle
         </button>
         <button type="button" onClick={() => onDelete(medication)}>
           Eliminar

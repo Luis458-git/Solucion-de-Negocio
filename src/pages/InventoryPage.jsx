@@ -15,7 +15,6 @@ export default function InventoryPage() {
     restoreMedication,
   } = useInventory();
 
-  const [editingMedication, setEditingMedication] = useState(null);
   const [selectedMedication, setSelectedMedication] = useState(null);
   const [deleteCandidate, setDeleteCandidate] = useState(null);
   const [undoMedication, setUndoMedication] = useState(null);
@@ -29,27 +28,22 @@ export default function InventoryPage() {
     };
   }, []);
 
-  function handleSubmit(formData) {
-    if (editingMedication) {
-      const result = updateMedication(editingMedication.id, formData);
+  function handleCreate(formData) {
+    return addMedication(formData);
+  }
 
-      if (result.isValid) {
-        setEditingMedication(null);
-      }
+  function handleUpdate(id, formData) {
+    const result = updateMedication(id, formData);
 
-      return;
+    if (result.isValid) {
+      setSelectedMedication(result.medication);
     }
 
-    addMedication(formData);
+    return result;
   }
 
   function handleSelect(medication) {
     setSelectedMedication(medication);
-  }
-
-  function handleEdit(medication) {
-    setEditingMedication(medication);
-    setSelectedMedication(null);
   }
 
   function handleDeleteRequest(medication) {
@@ -104,16 +98,11 @@ export default function InventoryPage() {
 
       <InventoryStats metrics={metrics} />
 
-      <section
-        className="inventory-page__form-section"
-        aria-label={editingMedication ? "Editar medicamento" : "Registrar medicamento"}
-      >
+      <section className="inventory-page__form-section" aria-label="Registrar medicamento">
         <InventoryForm
-          initialValues={editingMedication || undefined}
-          onSubmit={handleSubmit}
-          onCancel={() => setEditingMedication(null)}
-          submitLabel={editingMedication ? "Actualizar medicamento" : "Registrar medicamento"}
-          cancelLabel="Cancelar"
+          onSubmit={handleCreate}
+          submitLabel="Registrar medicamento"
+          cancelLabel="Limpiar"
         />
       </section>
 
@@ -121,7 +110,7 @@ export default function InventoryPage() {
         <InventoryTable
           medications={medications}
           onSelect={handleSelect}
-          onEdit={handleEdit}
+          onEdit={handleSelect}
           onDelete={handleDeleteRequest}
         />
       </section>
@@ -129,7 +118,7 @@ export default function InventoryPage() {
       <MedicationDetail
         medication={selectedMedication}
         onClose={() => setSelectedMedication(null)}
-        onEdit={handleEdit}
+        onUpdate={handleUpdate}
         onDelete={handleDeleteRequest}
       />
 

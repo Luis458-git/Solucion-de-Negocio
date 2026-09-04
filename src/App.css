@@ -706,3 +706,26 @@
     width: 100%;
   }
 }
+
+.medication-detail__edit-content {
+  padding: 24px;
+}
+
+.medication-detail__edit-content h2 {
+  margin-bottom: 20px;
+}
+
+.medication-detail__edit-content .inventory-form {
+  grid-template-columns: 1fr;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.medication-detail__edit-content .inventory-form__actions {
+  justify-content: stretch;
+}
+
+.medication-detail__edit-content .inventory-form__actions button {
+  flex: 1;
+}
