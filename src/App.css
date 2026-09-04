@@ -1,184 +1,411 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+.inventory-page {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
+.inventory-page__header {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  gap: 10px;
+  margin-bottom: 28px;
 }
 
-#next-steps {
+.inventory-page__eyebrow {
+  margin: 0;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.inventory-page__title {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.inventory-page__description {
+  max-width: 620px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.inventory-page__form-section {
+  margin: 30px 0;
+}
+
+.inventory-page__table-section {
+  margin-top: 34px;
+}
+
+.inventory-stats {
+  margin-bottom: 26px;
+}
+
+.inventory-stats h2 {
+  margin: 0 0 14px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.inventory-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.inventory-stats__card {
+  min-height: 108px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.inventory-stats__label {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.inventory-stats__value {
+  color: var(--primary-dark);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.inventory-table__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.inventory-card {
   display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+.inventory-card:hover {
+  border-color: rgba(20, 108, 90, 0.4);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
+.inventory-card__image-wrapper,
+.medication-detail__image-wrapper {
+  display: grid;
+  min-height: 170px;
+  place-items: center;
+  background: linear-gradient(135deg, #e2f3eb, #c9e8dc);
+}
+
+.inventory-card__image,
+.medication-detail__image {
+  width: 100%;
+  height: 100%;
+  min-height: 170px;
+  object-fit: cover;
+}
+
+.inventory-card__image-placeholder,
+.medication-detail__image-placeholder {
+  display: grid;
+  width: 82px;
+  height: 82px;
+  place-items: center;
+  border-radius: 24px;
+  background: var(--primary);
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+.inventory-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+}
+
+.inventory-card__category,
+.medication-detail__category {
+  margin: 0;
+  color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.inventory-card__name {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.inventory-card__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.inventory-card__status {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.inventory-card__status--stock-bajo {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.inventory-card__status--agotado {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.inventory-card__actions,
+.medication-detail__actions,
+.delete-dialog__actions {
   display: flex;
   gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  padding: 0 18px 18px;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.inventory-card__actions button,
+.medication-detail__actions button,
+.delete-dialog__actions button,
+.undo-notification button {
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: var(--surface-soft);
+  color: var(--primary-dark);
+  font-weight: 750;
+  transition: background 160ms ease, transform 160ms ease;
 }
 
-.ticks {
+.inventory-card__actions button:hover,
+.medication-detail__actions button:hover,
+.delete-dialog__actions button:hover,
+.undo-notification button:hover {
+  background: var(--primary-soft);
+  transform: translateY(-1px);
+}
+
+.inventory-card__actions button:last-child,
+.medication-detail__actions button:last-child,
+.delete-dialog__actions button:last-child {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.inventory-table__empty-state {
+  padding: 48px 20px;
+  border: 1px dashed #a9c5b8;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--muted);
+  text-align: center;
+}
+
+.medication-detail__backdrop,
+.delete-dialog__backdrop {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 34, 28, 0.58);
+}
+
+.medication-detail,
+.delete-dialog {
+  width: min(520px, 100%);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 26px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.medication-detail {
   position: relative;
-  width: 100%;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+.medication-detail__close {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  font-size: 1.5rem;
+}
+
+.medication-detail__content,
+.delete-dialog {
+  padding: 24px;
+}
+
+.medication-detail__content h2,
+.delete-dialog h2 {
+  margin: 6px 0 22px;
+  color: var(--ink);
+  font-size: 1.8rem;
+  letter-spacing: -0.04em;
+}
+
+.medication-detail__data {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 24px;
+}
+
+.medication-detail__data div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.medication-detail__data dt {
+  color: var(--muted);
+}
+
+.medication-detail__data dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 800;
+  text-align: right;
+}
+
+.medication-detail__actions {
+  padding: 0;
+}
+
+.delete-dialog p {
+  margin: 0 0 22px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.delete-dialog__actions {
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.undo-notification {
+  position: fixed;
+  z-index: 30;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: calc(100% - 48px);
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  background: #17211f;
+  color: white;
+  box-shadow: var(--shadow-lg);
+}
+
+.undo-notification button {
+  padding: 7px 10px;
+  background: #dff1e9;
+  color: #0d4f43;
+}
+
+@media (max-width: 960px) {
+  .inventory-table__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .inventory-page {
+    width: min(100% - 28px, 620px);
+    padding: 28px 0 48px;
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
+  .inventory-stats__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+
+  .inventory-table__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .inventory-table__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-card__actions {
+    flex-direction: column;
+  }
+
+  .inventory-card__actions button {
+    width: 100%;
+  }
+
+  .medication-detail__data div {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .medication-detail__data dd {
+    text-align: left;
+  }
+
+  .undo-notification {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    justify-content: space-between;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
