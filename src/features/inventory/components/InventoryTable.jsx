@@ -1,6 +1,6 @@
 import InventoryCard from "./InventoryCard";
 
-export default function InventoryTable({ medications, onSelect, onEdit, onDelete }) {
+export default function InventoryTable({ medications, onSelect, onDelete }) {
   if (!medications || medications.length === 0) {
     return (
       <div className="inventory-table__empty-state">
@@ -17,7 +17,6 @@ export default function InventoryTable({ medications, onSelect, onEdit, onDelete
             key={medication.id}
             medication={medication}
             onSelect={onSelect}
-            onEdit={onEdit}
             onDelete={onDelete}
           />
         ))}

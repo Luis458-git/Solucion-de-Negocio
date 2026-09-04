@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { parseMedicationFile } from "../utils/importMedicationFile";
+import { formatCurrency } from "../utils/currency";
 
 export default function MedicationImport({ onImport }) {
   const [file, setFile] = useState(null);
   const [rows, setRows] = useState([]);
   const [isReading, setIsReading] = useState(false);
   const [error, setError] = useState("");
+  const [importResult, setImportResult] = useState(null);
 
   const validRows = rows.filter((row) => row.isValid);
   const invalidRows = rows.filter((row) => !row.isValid);
@@ -16,6 +18,7 @@ export default function MedicationImport({ onImport }) {
     setFile(selectedFile || null);
     setRows([]);
     setError("");
+    setImportResult(null);
 
     if (!selectedFile) {
       return;
@@ -38,10 +41,13 @@ export default function MedicationImport({ onImport }) {
       return;
     }
 
-    onImport(validRows.map((row) => row.medication));
-    setFile(null);
-    setRows([]);
-    setError("");
+    const result = onImport(validRows.map((row) => row.medication));
+    setImportResult(result);
+
+    if (result.importedCount > 0) {
+      setFile(null);
+      setRows([]);
+    }
   }
 
   return (
@@ -71,6 +77,14 @@ export default function MedicationImport({ onImport }) {
       {error && (
         <p className="medication-import__error" role="alert">
           {error}
+        </p>
+      )}
+
+      {importResult && (
+        <p className="medication-import__success" role="status" aria-live="polite">
+          Se importaron {importResult.importedCount} registros.
+          {importResult.skippedCount > 0 &&
+            ` Se omitieron ${importResult.skippedCount} por errores o duplicados.`}
         </p>
       )}
 
@@ -105,7 +119,11 @@ export default function MedicationImport({ onImport }) {
                     <td>{row.medication.name || "—"}</td>
                     <td>{row.medication.category || "—"}</td>
                     <td>{row.medication.quantity || "—"}</td>
-                    <td>{row.medication.unitPrice || "—"}</td>
+                    <td>
+                      {row.medication.unitPrice
+                        ? formatCurrency(row.medication.unitPrice)
+                        : "—"}
+                    </td>
                     <td>
                       {row.isValid ? (
                         <span className="medication-import__status medication-import__status--valid">

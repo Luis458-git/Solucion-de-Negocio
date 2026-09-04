@@ -4,12 +4,14 @@ import InventoryForm from "../features/inventory/components/InventoryForm";
 import InventoryTable from "../features/inventory/components/InventoryTable";
 import InventoryStats from "../features/inventory/components/InventoryStats";
 import MedicationDetail from "../features/inventory/components/MedicationDetail";
+import MedicationImport from "../features/inventory/components/MedicationImport";
 
 export default function InventoryPage() {
   const {
     medications,
     metrics,
     addMedication,
+    importMedications,
     updateMedication,
     deleteMedication,
     restoreMedication,
@@ -106,11 +108,12 @@ export default function InventoryPage() {
         />
       </section>
 
+      <MedicationImport onImport={importMedications} />
+
       <section className="inventory-page__table-section" aria-label="Lista de medicamentos">
         <InventoryTable
           medications={medications}
           onSelect={handleSelect}
-          onEdit={handleSelect}
           onDelete={handleDeleteRequest}
         />
       </section>

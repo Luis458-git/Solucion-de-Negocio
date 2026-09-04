@@ -25,6 +25,17 @@ function isDuplicateMedication(medication, medications, ignoredId = null) {
   );
 }
 
+function normalizeMedication(medication, id = crypto.randomUUID()) {
+  return {
+    id,
+    ...medication,
+    name: medication.name.trim(),
+    category: medication.category.trim(),
+    quantity: Number(medication.quantity),
+    unitPrice: Number(medication.unitPrice),
+  };
+}
+
 export function useInventory(initialMedications = []) {
   const [medications, setMedications] = useState(initialMedications);
 
@@ -44,14 +55,7 @@ export function useInventory(initialMedications = []) {
       };
     }
 
-    const newMedication = {
-      id: crypto.randomUUID(),
-      ...medication,
-      name: medication.name.trim(),
-      category: medication.category.trim(),
-      quantity: Number(medication.quantity),
-      unitPrice: Number(medication.unitPrice),
-    };
+    const newMedication = normalizeMedication(medication);
 
     setMedications((currentMedications) => [
       ...currentMedications,
@@ -59,6 +63,53 @@ export function useInventory(initialMedications = []) {
     ]);
 
     return { isValid: true, errors: {}, medication: newMedication };
+  }
+
+  function importMedications(candidateMedications) {
+    const importedMedications = [];
+    const errors = [];
+    const medicationsToCompare = [...medications];
+
+    candidateMedications.forEach((candidate, index) => {
+      const validation = validateMedication(candidate);
+
+      if (!validation.isValid) {
+        errors.push({
+          index,
+          name: candidate.name || `Fila ${index + 1}`,
+          errors: validation.errors,
+        });
+        return;
+      }
+
+      if (isDuplicateMedication(candidate, medicationsToCompare)) {
+        errors.push({
+          index,
+          name: candidate.name,
+          errors: {
+            name: "Ya existe un medicamento igual con la misma categoría.",
+          },
+        });
+        return;
+      }
+
+      const newMedication = normalizeMedication(candidate);
+      importedMedications.push(newMedication);
+      medicationsToCompare.push(newMedication);
+    });
+
+    if (importedMedications.length > 0) {
+      setMedications((currentMedications) => [
+        ...currentMedications,
+        ...importedMedications,
+      ]);
+    }
+
+    return {
+      importedCount: importedMedications.length,
+      skippedCount: errors.length,
+      errors,
+    };
   }
 
   function updateMedication(id, updatedMedication) {
@@ -77,14 +128,7 @@ export function useInventory(initialMedications = []) {
       };
     }
 
-    const medication = {
-      ...updatedMedication,
-      id,
-      name: updatedMedication.name.trim(),
-      category: updatedMedication.category.trim(),
-      quantity: Number(updatedMedication.quantity),
-      unitPrice: Number(updatedMedication.unitPrice),
-    };
+    const medication = normalizeMedication(updatedMedication, id);
 
     setMedications((currentMedications) =>
       currentMedications.map((currentMedication) =>
@@ -131,6 +175,7 @@ export function useInventory(initialMedications = []) {
     medications: medicationsWithStockStatus,
     metrics,
     addMedication,
+    importMedications,
     updateMedication,
     deleteMedication,
     restoreMedication,
