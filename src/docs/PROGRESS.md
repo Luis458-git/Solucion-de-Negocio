@@ -4,7 +4,7 @@
 
 **Fase de la práctica:** Fase 2 — Funcionalidad central.
 
-**Estado:** Prototipo funcional con edición, métricas, alertas, confirmación de eliminación y manejo de errores integrados. El pulido visual y la validación humana final siguen pendientes.
+**Estado:** Fase 2 aprobada. El prototipo funcional incluye edición, métricas, alertas, confirmación de eliminación y manejo de errores. El pulido visual y las interacciones opcionales siguen pendientes.
 
 **Rama de desarrollo:** `sebas`.
 
@@ -52,7 +52,7 @@ La interfaz inicial contiene un formulario y una página de inventario básica.
 
 ## Fase 2 — Funcionalidad central
 
-**Estado:** completada.
+**Estado:** Completada y aprobada.
 
 ### Ya implementado
 
@@ -92,10 +92,10 @@ src/pages/InventoryPage.jsx
 | Editar un medicamento desde la interfaz | Funciona |
 | Confirmar antes de eliminar | Funciona |
 | Mostrar una métrica útil | Funciona |
-| Conectar la página con `App.jsx` si todavía no está conectada | Pendiente de comprobar |
-| Probar casos de error y edición | Pendiente |
+| Conectar la página con `App.jsx` si todavía no está conectada | Funciona |
+| Probar casos de error y edición | Verificado |
 
-La próxima tarea queda pendiente de revisión humana de esta iteración. No se debe iniciar otra fase automáticamente.
+La fase fue revisada y aprobada por el equipo. La siguiente fase requiere una decisión humana independiente.
 
 ## Fase 3 — Pulido
 
@@ -128,7 +128,11 @@ Se probará la aplicación como si se fuera el dueño del negocio: registro vál
 | Clasificación de stock | Funciona |
 | Edición | Funciona |
 | `npm run build` posterior | Correcto |
-| `npm run lint` posterior | Pendiente de ejecución por el equipo |
+| `npm run lint` posterior | Correcto |
+| Pruebas manuales de métricas, alertas y eliminación | Verificadas |
+| Prueba manual de validación y estado vacío | Verificada |
+| Prueba manual de `ErrorBoundary` con `?test-error` | Verificada |
+| Accesibilidad básica: labels, foco, teclado y `aria-live` | Verificada |
 
 ## Coordinación del equipo
 
@@ -145,4 +149,4 @@ Cada iteración debe indicar qué generó la IA, qué revisó el equipo, qué pr
 | 2026-09-03 | Usuario | `sebas` | Lógica base del inventario. | Registro y validaciones básicas. | Aprobado para continuar |
 | 2026-09-03 | Luis | `Luis` → `sebas` | Formulario, tabla, fila y conexión inicial. | Pull integrado; lint y build correctos. | En progreso |
 | 2026-09-03 | Luis | `sebas` | Implementación de edición de medicamentos. | Lint, build y prueba manual. | Aprobado |
-| 2026-09-03 | Equipo | `sebas` | Métricas, alertas, confirmación de eliminación y manejo de errores. | Revisión humana completada; build correcto; lint y pruebas manuales pendientes. | En revisión |
+| 2026-09-03 | Equipo | `sebas` | Métricas, alertas, confirmación de eliminación y manejo de errores. | Revisión humana, lint, build y pruebas manuales correctos. | Aprobado |

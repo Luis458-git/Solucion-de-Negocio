@@ -189,8 +189,8 @@ src/docs/PROMPTS.md
 **Revisión humana:** Completada. Se revisaron los componentes nuevos, la integración en la página, la accesibilidad básica y el alcance de la iteración.
 **Problemas encontrados:** `ARCHITECTURE.md` no existe con ese nombre; el documento equivalente del repositorio se llama `ARQUITECTURE.md`. La prueba inicial del `ErrorBoundary` se ejecutaba antes de montar el boundary.
 **Correcciones aplicadas:** La prueba `?test-error` se movió a `InventoryPageContent`, componente protegido por `ErrorBoundary`. También se completó la lista documental de archivos afectados. No se instalaron dependencias ni se modificaron `main.jsx`, `App.jsx` o la configuración.
-**Pruebas ejecutadas:** `npm run build` → correcto. `npm run lint` y las pruebas manuales de métricas, alertas, eliminación confirmada y `ErrorBoundary` quedan pendientes de ejecución.
-**Decisión:** Requiere revisión humana.
+**Pruebas ejecutadas:** `npm run lint` → correcto. `npm run build` → correcto. Pruebas manuales verificadas: registro válido, validaciones, estado vacío, métricas, stock normal, stock bajo, agotado, edición, eliminación con confirmación, cancelación, foco y teclado del diálogo, mensajes `aria-live` y `ErrorBoundary` mediante `?test-error`.
+**Decisión:** Aprobado por revisión humana. La Fase 2 queda completada; el pulido visual y las interacciones opcionales permanecen fuera de esta iteración.
 
 ## Plantilla para nuevas iteraciones
 
