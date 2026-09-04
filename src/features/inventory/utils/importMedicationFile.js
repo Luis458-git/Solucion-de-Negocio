@@ -18,6 +18,7 @@ const HEADER_ALIASES = {
 
 function normalizeHeader(value) {
   return String(value ?? "")
+    .replace(/^\uFEFF/, "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
@@ -32,6 +33,7 @@ function findValue(row, fieldName) {
 
   const match = rowEntries.find(([header]) => {
     const normalizedHeader = normalizeHeader(header);
+
     return acceptedHeaders.some(
       (acceptedHeader) => normalizeHeader(acceptedHeader) === normalizedHeader
     );
@@ -59,6 +61,16 @@ function readFileAsArrayBuffer(file) {
   });
 }
 
+function readFileAsText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("No se pudo leer el archivo CSV."));
+    reader.readAsText(file, "UTF-8");
+  });
+}
+
 export async function parseMedicationFile(file) {
   if (!file) {
     throw new Error("Selecciona un archivo para importar.");
@@ -71,8 +83,14 @@ export async function parseMedicationFile(file) {
     throw new Error("El archivo debe tener formato CSV, XLS o XLSX.");
   }
 
-  const fileBuffer = await readFileAsArrayBuffer(file);
-  const workbook = XLSX.read(fileBuffer, { type: "array" });
+  const fileContent =
+    extension === "csv"
+      ? await readFileAsText(file)
+      : await readFileAsArrayBuffer(file);
+
+  const workbook = XLSX.read(fileContent, {
+    type: extension === "csv" ? "string" : "array",
+  });
   const firstSheetName = workbook.SheetNames[0];
 
   if (!firstSheetName) {
