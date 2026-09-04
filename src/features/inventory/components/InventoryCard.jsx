@@ -1,6 +1,6 @@
 import { formatCurrency } from "../utils/currency";
 
-export default function InventoryCard({ medication, onSelect, onEdit, onDelete }) {
+export default function InventoryCard({ medication, onSelect, onDelete }) {
   const statusClassName = medication.stockStatus
     .toLowerCase()
     .replaceAll(" ", "-")

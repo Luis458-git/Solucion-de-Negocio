@@ -116,6 +116,7 @@ export default function InventoryPage() {
       </section>
 
       <MedicationDetail
+        key={selectedMedication?.id ?? "closed"}
         medication={selectedMedication}
         onClose={() => setSelectedMedication(null)}
         onUpdate={handleUpdate}

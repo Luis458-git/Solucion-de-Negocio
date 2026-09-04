@@ -30,10 +30,6 @@ export default function MedicationDetail({ medication, onClose, onUpdate, onDele
     };
   }, [medication, onClose]);
 
-  useEffect(() => {
-    setIsEditing(false);
-  }, [medication]);
-
   if (!medication) {
     return null;
   }
