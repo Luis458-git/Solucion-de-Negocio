@@ -52,7 +52,7 @@ La interfaz inicial contiene un formulario y una página de inventario básica.
 
 ## Fase 2 — Funcionalidad central
 
-**Estado:** En progreso.
+**Estado:** completada.
 
 ### Ya implementado
 
