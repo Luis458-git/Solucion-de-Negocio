@@ -1,11 +1,23 @@
 import { useState } from "react";
 import { useInventory } from "../features/inventory/hooks/useInventory";
 import InventoryForm from "../features/inventory/components/InventoryForm";
+import InventoryStats from "../features/inventory/components/InventoryStats";
+import StockAlert from "../features/inventory/components/StockAlert";
 import InventoryTable from "../features/inventory/components/InventoryTable";
+import ConfirmDialog from "../shared/components/ConfirmDialog";
+import ErrorBoundary from "../shared/components/ErrorBoundary";
 
 export default function InventoryPage() {
-  const { medications, addMedication, updateMedication, deleteMedication } = useInventory();
+  const {
+    medications,
+    metrics,
+    addMedication,
+    updateMedication,
+    deleteMedication,
+  } = useInventory();
   const [editingMedication, setEditingMedication] = useState(null);
+  const [medicationToDelete, setMedicationToDelete] = useState(null);
+  const [deleteError, setDeleteError] = useState("");
 
   function handleSubmit(formData) {
     if (editingMedication) {
@@ -24,7 +36,26 @@ export default function InventoryPage() {
   }
 
   function handleDelete(id) {
-    deleteMedication(id);
+    const medication = medications.find((item) => item.id === id);
+
+    if (medication) {
+      setMedicationToDelete(medication);
+      setDeleteError("");
+    }
+  }
+
+  function handleConfirmDelete() {
+    if (!medicationToDelete) {
+      return;
+    }
+
+    try {
+      deleteMedication(medicationToDelete.id);
+      setMedicationToDelete(null);
+    } catch {
+      setDeleteError("No se pudo eliminar el medicamento. Inténtalo de nuevo.");
+      setMedicationToDelete(null);
+    }
   }
 
   function handleCancel() {
@@ -32,29 +63,51 @@ export default function InventoryPage() {
   }
 
   return (
-    <main className="inventory-page">
-      <h1 className="inventory-page__title">Inventario de medicamentos</h1>
+    <ErrorBoundary>
+      <main className="inventory-page">
+        <h1 className="inventory-page__title">Inventario de medicamentos</h1>
 
-      <section 
-        className="inventory-page__form-section" 
-        aria-label={editingMedication ? "Editar medicamento" : "Registrar medicamento"}
-      >
-        <InventoryForm 
-          initialValues={editingMedication || undefined}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          submitLabel={editingMedication ? "Actualizar medicamento" : "Registrar medicamento"}
-          cancelLabel="Cancelar"
-        />
-      </section>
+        <InventoryStats metrics={metrics} />
+        <StockAlert medications={medications} />
 
-      <section className="inventory-page__table-section" aria-label="Lista de medicamentos">
-        <InventoryTable
-          medications={medications}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+        {deleteError && (
+          <p className="inventory-page__error" role="alert" aria-live="assertive">
+            {deleteError}
+          </p>
+        )}
+
+        <section
+          className="inventory-page__form-section"
+          aria-label={editingMedication ? "Editar medicamento" : "Registrar medicamento"}
+        >
+          <InventoryForm
+            initialValues={editingMedication || undefined}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            submitLabel={editingMedication ? "Actualizar medicamento" : "Registrar medicamento"}
+            cancelLabel="Cancelar"
+          />
+        </section>
+
+        <section className="inventory-page__table-section" aria-label="Lista de medicamentos">
+          <InventoryTable
+            medications={medications}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </section>
+
+        <ConfirmDialog
+          isOpen={Boolean(medicationToDelete)}
+          message={
+            medicationToDelete
+              ? `¿Deseas eliminar ${medicationToDelete.name} del inventario?`
+              : ""
+          }
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setMedicationToDelete(null)}
         />
-      </section>
-    </main>
+      </main>
+    </ErrorBoundary>
   );
 }

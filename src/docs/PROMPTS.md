@@ -159,7 +159,38 @@ npm run build → correcto después de la integración.
 **Pruebas ejecutadas:** `npm run lint` y `npm run build`. Resultado exitoso.
 **Decisión:** Aprobado.
 
-### Iteración 07 — [Siguiente tarea]
+### Iteración 07 — Métricas, alertas y estados de error
+
+**Fecha:** 2026-09-03  
+**Integrante:** Equipo  
+**Rama:** `sebas`  
+**Fase:** Fase 2 — Funcionalidad central  
+**Objetivo:** Integrar métricas de inventario, alertas de stock, confirmación de eliminación y manejo de errores sin duplicar la lógica existente ni modificar la configuración del proyecto.
+
+**Prompt utilizado:**
+
+```text
+Implementar únicamente métricas de inventario, alertas de stock, confirmación de eliminación y manejo de errores. Crear InventoryStats.jsx, StockAlert.jsx, ConfirmDialog.jsx y ErrorBoundary.jsx; modificar InventoryPage.jsx solo para integrarlos; utilizar las métricas y la lógica existentes; mantener los estados normal, vacío, stock bajo, agotado, validación y error; no añadir búsqueda, filtros, localStorage, GSAP, Skiper UI ni dependencias; actualizar PROGRESS.md y PROMPTS.md.
+```
+
+**Archivos afectados:**
+
+```text
+src/features/inventory/components/InventoryStats.jsx
+src/features/inventory/components/StockAlert.jsx
+src/shared/components/ConfirmDialog.jsx
+src/shared/components/ErrorBoundary.jsx
+src/pages/InventoryPage.jsx
+src/docs/PROGRESS.md
+src/docs/PROMPTS.md
+```
+
+**Resultado generado:** Se añadieron métricas derivadas, alertas para stock normal, bajo y agotado, un diálogo accesible de confirmación y un límite de errores para la interfaz. La página conserva una sola instancia de `useInventory()` y solicita confirmación antes de eliminar.
+**Revisión humana:** Pendiente.
+**Problemas encontrados:** `ARCHITECTURE.md` no existe con ese nombre; el documento equivalente del repositorio se llama `ARQUITECTURE.md`. No se detectó un error concreto en `useInventory.js`.
+**Correcciones aplicadas:** Ninguna fuera del alcance. No se instalaron dependencias ni se modificaron `main.jsx`, `App.jsx` o la configuración.
+**Pruebas ejecutadas:** Pendientes de ejecución humana: `npm run lint`, `npm run build` y pruebas manuales de métricas, alertas, eliminación confirmada y `ErrorBoundary`.
+**Decisión:** Requiere revisión humana.
 
 ## Plantilla para nuevas iteraciones
 

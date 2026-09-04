@@ -4,7 +4,7 @@
 
 **Fase de la práctica:** Fase 2 — Funcionalidad central.
 
-**Estado:** Prototipo básico funcional. El sistema permite registrar medicamentos, mostrarlos en una tabla, clasificar su stock y eliminarlos. La edición, la confirmación de eliminación, las métricas y el pulido visual siguen pendientes.
+**Estado:** Prototipo funcional con edición, métricas, alertas, confirmación de eliminación y manejo de errores integrados. El pulido visual y la validación humana final siguen pendientes.
 
 **Rama de desarrollo:** `sebas`.
 
@@ -64,7 +64,10 @@ La interfaz inicial contiene un formulario y una página de inventario básica.
 | Mostrar registros en tabla | Funciona |
 | Clasificar stock | Funciona |
 | Mostrar estado vacío | Funciona |
-| Eliminar registro | Funciona sin confirmación todavía |
+| Eliminar registro | Funciona con confirmación |
+| Métricas de inventario | Funciona mediante datos derivados de `useInventory` |
+| Alertas de stock | Funciona para stock normal, bajo y agotado |
+| Manejo de errores | Funciona mediante `ErrorBoundary` y mensaje de eliminación |
 
 ### Archivos principales
 
@@ -83,12 +86,12 @@ src/pages/InventoryPage.jsx
 | Funcionalidad | Estado |
 |---|---|
 | Editar un medicamento desde la interfaz | Funciona |
-| Confirmar antes de eliminar | Pendiente |
-| Mostrar una métrica útil | Pendiente |
+| Confirmar antes de eliminar | Funciona |
+| Mostrar una métrica útil | Funciona |
 | Conectar la página con `App.jsx` si todavía no está conectada | Pendiente de comprobar |
 | Probar casos de error y edición | Pendiente |
 
-La próxima tarea debe ser una sola mejora funcional: implementar la edición de un medicamento sin agregar estilos avanzados ni animaciones.
+La próxima tarea queda pendiente de revisión humana de esta iteración. No se debe iniciar otra fase automáticamente.
 
 ## Fase 3 — Pulido
 
@@ -120,7 +123,7 @@ Se probará la aplicación como si se fuera el dueño del negocio: registro vál
 | Visualización en tabla | Funciona |
 | Clasificación de stock | Funciona |
 | Edición | Funciona |
-| Revisión posterior de lint/build | Debe ejecutarse después del último pull |
+| Revisión posterior de lint/build | Pendiente de ejecución por el equipo después de esta iteración |
 
 ## Coordinación del equipo
 
@@ -137,3 +140,4 @@ Cada iteración debe indicar qué generó la IA, qué revisó el equipo, qué pr
 | 2026-09-03 | Usuario | `sebas` | Lógica base del inventario. | Registro y validaciones básicas. | Aprobado para continuar |
 | 2026-09-03 | Luis | `Luis` → `sebas` | Formulario, tabla, fila y conexión inicial. | Pull integrado; lint y build correctos. | En progreso |
 | 2026-09-03 | Luis | `sebas` | Implementación de edición de medicamentos. | Lint, build y prueba manual. | Aprobado |
+| 2026-09-03 | Equipo | `sebas` | Métricas, alertas, confirmación de eliminación y manejo de errores. | Pendiente de revisión humana, lint, build y pruebas manuales. | En revisión |
