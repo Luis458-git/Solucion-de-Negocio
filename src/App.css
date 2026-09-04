@@ -42,16 +42,12 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background:
-    radial-gradient(
-      circle at 8% 0%,
+    radial-gradient(circle at 8% 0%,
       rgba(175, 227, 207, 0.36),
-      transparent 30rem
-    ),
-    radial-gradient(
-      circle at 100% 12%,
+      transparent 30rem),
+    radial-gradient(circle at 100% 12%,
       rgba(255, 228, 175, 0.18),
-      transparent 24rem
-    ),
+      transparent 24rem),
     linear-gradient(180deg, #f9fcfa 0%, #eef5f2 100%);
   font-family:
     Inter,
@@ -114,11 +110,9 @@ article:focus-visible {
   border: 1px solid rgba(153, 196, 178, 0.66);
   border-radius: 34px;
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(255, 255, 255, 0.99),
-      rgba(232, 247, 240, 0.95)
-    );
+      rgba(232, 247, 240, 0.95));
   box-shadow: 0 28px 72px rgba(37, 78, 62, 0.11);
 }
 
@@ -222,28 +216,22 @@ article:focus-visible {
   right: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    #1e8a72,
-    rgba(30, 138, 114, 0)
-  );
+  background: linear-gradient(90deg,
+      #1e8a72,
+      rgba(30, 138, 114, 0));
   content: "";
 }
 
 .inventory-stats__card:nth-child(3)::before {
-  background: linear-gradient(
-    90deg,
-    #d49320,
-    rgba(212, 147, 32, 0)
-  );
+  background: linear-gradient(90deg,
+      #d49320,
+      rgba(212, 147, 32, 0));
 }
 
 .inventory-stats__card:nth-child(4)::before {
-  background: linear-gradient(
-    90deg,
-    #c7525b,
-    rgba(199, 82, 91, 0)
-  );
+  background: linear-gradient(90deg,
+      #c7525b,
+      rgba(199, 82, 91, 0));
 }
 
 .inventory-stats__card::after {
@@ -405,11 +393,9 @@ article:focus-visible {
   border: 1px solid rgba(198, 217, 208, 0.96);
   border-radius: 24px;
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(255, 255, 255, 0.98),
-      rgba(239, 248, 244, 0.96)
-    );
+      rgba(239, 248, 244, 0.96));
   box-shadow: 0 18px 44px rgba(37, 78, 62, 0.075);
 }
 
@@ -707,17 +693,13 @@ article:focus-visible {
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 30% 18%,
+    radial-gradient(circle at 30% 18%,
       rgba(255, 255, 255, 0.56),
-      transparent 26%
-    ),
-    linear-gradient(
-      145deg,
+      transparent 26%),
+    linear-gradient(145deg,
       #e1f2e9 0%,
       #cce8dc 54%,
-      #b9dccd 100%
-    );
+      #b9dccd 100%);
 }
 
 .inventory-card__image-wrapper::before,
@@ -1376,5 +1358,259 @@ article:focus-visible {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   MOTION SYSTEM
+   ========================================================================== */
+
+.inventory-page__header {
+  animation: hero-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.inventory-stats {
+  animation: section-enter 700ms 80ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.inventory-page__form-section {
+  animation: section-enter 700ms 140ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.medication-import {
+  animation: section-enter 700ms 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.inventory-page__table-section {
+  animation: section-enter 700ms 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.inventory-card:nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.inventory-card:nth-child(2) {
+  animation-delay: 140ms;
+}
+
+.inventory-card:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.inventory-card:nth-child(4) {
+  animation-delay: 260ms;
+}
+
+.inventory-card:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.inventory-card:nth-child(6) {
+  animation-delay: 380ms;
+}
+
+/* ==========================================================================
+   HERO AMBIENT MOTION
+   ========================================================================== */
+
+.inventory-page__header::before {
+  animation: ambient-orbit 12s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.inventory-page__header::after {
+  animation: ambient-pulse 7s ease-in-out infinite alternate;
+}
+
+/* ==========================================================================
+   STATS MOTION
+   ========================================================================== */
+
+.inventory-stats__card {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.inventory-stats__card:hover {
+  border-color: rgba(70, 148, 123, 0.45);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   FORM MICRO-INTERACTIONS
+   ========================================================================== */
+
+.inventory-form__field {
+  transition: transform 180ms ease;
+}
+
+.inventory-form__field:focus-within {
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   CARD MICRO-INTERACTIONS
+   ========================================================================== */
+
+.inventory-card {
+  will-change: transform;
+}
+
+.inventory-card__image-wrapper {
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 350ms ease;
+}
+
+.inventory-card:hover .inventory-card__image-wrapper {
+  filter: saturate(1.04);
+}
+
+.inventory-card:hover .inventory-card__image-placeholder {
+  transform: translateY(-3px) scale(1.025);
+}
+
+.inventory-card__image-placeholder {
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms ease;
+}
+
+.inventory-card__summary span {
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.inventory-card:hover .inventory-card__summary span {
+  border-color: #d4e5dd;
+  background: #fbfdfc;
+}
+
+.inventory-card__status {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.inventory-card:hover .inventory-card__status {
+  box-shadow: 0 5px 14px rgba(21, 112, 91, 0.08);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   BUTTON FEEDBACK
+   ========================================================================== */
+
+.inventory-card__actions button,
+.inventory-form__actions button,
+.medication-import__file-button,
+.medication-import__actions button,
+.medication-detail__actions button,
+.delete-dialog__actions button {
+  will-change: transform;
+}
+
+.inventory-card__actions button:active,
+.inventory-form__actions button:active,
+.medication-import__file-button:active,
+.medication-import__actions button:active,
+.medication-detail__actions button:active,
+.delete-dialog__actions button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* ==========================================================================
+   MODAL MOTION
+   ========================================================================== */
+
+.medication-detail__backdrop,
+.delete-dialog__backdrop {
+  backdrop-filter: blur(5px);
+}
+
+.medication-detail {
+  transform-origin: center;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ambient-orbit {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    transform: translate3d(-14px, 10px, 5px) rotate(7deg);
+  }
+}
+
+@keyframes ambient-pulse {
+  from {
+    opacity: 0.22;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 0.48;
+    transform: scale(1.04);
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .inventory-page__header,
+  .inventory-stats,
+  .inventory-page__form-section,
+  .medication-import,
+  .inventory-page__table-section,
+  .inventory-card,
+  .inventory-page__header::before,
+  .inventory-page__header::after {
+    animation: none !important;
+  }
+
+  .inventory-card,
+  .inventory-stats__card,
+  .inventory-card__image-wrapper,
+  .inventory-card__image-placeholder,
+  .inventory-card__summary span,
+  .inventory-card__status,
+  .inventory-form__field {
+    transition: none !important;
   }
 }
