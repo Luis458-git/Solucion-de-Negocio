@@ -186,10 +186,10 @@ src/docs/PROMPTS.md
 ```
 
 **Resultado generado:** Se añadieron métricas derivadas, alertas para stock normal, bajo y agotado, un diálogo accesible de confirmación y un límite de errores para la interfaz. La página conserva una sola instancia de `useInventory()` y solicita confirmación antes de eliminar.
-**Revisión humana:** Pendiente.
-**Problemas encontrados:** `ARCHITECTURE.md` no existe con ese nombre; el documento equivalente del repositorio se llama `ARQUITECTURE.md`. No se detectó un error concreto en `useInventory.js`.
-**Correcciones aplicadas:** Ninguna fuera del alcance. No se instalaron dependencias ni se modificaron `main.jsx`, `App.jsx` o la configuración.
-**Pruebas ejecutadas:** Pendientes de ejecución humana: `npm run lint`, `npm run build` y pruebas manuales de métricas, alertas, eliminación confirmada y `ErrorBoundary`.
+**Revisión humana:** Completada. Se revisaron los componentes nuevos, la integración en la página, la accesibilidad básica y el alcance de la iteración.
+**Problemas encontrados:** `ARCHITECTURE.md` no existe con ese nombre; el documento equivalente del repositorio se llama `ARQUITECTURE.md`. La prueba inicial del `ErrorBoundary` se ejecutaba antes de montar el boundary.
+**Correcciones aplicadas:** La prueba `?test-error` se movió a `InventoryPageContent`, componente protegido por `ErrorBoundary`. También se completó la lista documental de archivos afectados. No se instalaron dependencias ni se modificaron `main.jsx`, `App.jsx` o la configuración.
+**Pruebas ejecutadas:** `npm run build` → correcto. `npm run lint` y las pruebas manuales de métricas, alertas, eliminación confirmada y `ErrorBoundary` quedan pendientes de ejecución.
 **Decisión:** Requiere revisión humana.
 
 ## Plantilla para nuevas iteraciones
